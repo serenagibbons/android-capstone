@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Android Capstone</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_calendar">Calendar</string>
+    <string name="create">Create task</string>
+</resources>
