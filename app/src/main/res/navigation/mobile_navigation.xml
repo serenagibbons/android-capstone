@@ -22,4 +22,10 @@
         android:name="com.example.androidcapstone.ui.calendar.CalendarFragment"
         android:label="@string/title_calendar"
         tools:layout="@layout/fragment_calendar" />
+
+    <fragment
+        android:id="@+id/navigation_create_task"
+        android:name="com.example.androidcapstone.ui.create_task.CreateTaskFragment"
+        android:label="@string/create"
+        tools:layout="@layout/fragment_create_task" />
 </navigation>
