@@ -26,13 +26,7 @@ public class CreateTaskFragment extends Fragment {
         createTaskViewModel =
                 ViewModelProviders.of(this).get(CreateTaskViewModel.class);
         View root = inflater.inflate(R.layout.fragment_create_task, container, false);
-        final TextView textView = root.findViewById(R.id.text_create);
-        createTaskViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
         return root;
     }
 
