@@ -1,4 +1,4 @@
-package com.example.androidcapstone.ui.home;
+package com.example.androidcapstone.ui.personal_feed;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.androidcapstone.R;
 
-public class HomeFragment extends Fragment {
+public class PersonalFeedFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private PersonalFeedViewModel personalFeedViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        personalFeedViewModel =
+                ViewModelProviders.of(this).get(PersonalFeedViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_personal, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(this, new Observer<String>() {
+        personalFeedViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
