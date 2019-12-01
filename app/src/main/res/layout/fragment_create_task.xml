@@ -6,32 +6,61 @@
     tools:context=".ui.create_task.CreateTaskFragment">
 
     <EditText
-        android:id="@+id/editText10"
+        android:id="@+id/editText8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="400dp"
-        android:layout_marginEnd="63dp"
-        android:layout_marginRight="63dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="230dp"
+        android:layout_marginEnd="66dp"
+        android:layout_marginRight="66dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="SPINNER" />
+        android:text="MAPLOCATION" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="41dp"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="233dp"
+        android:text="Location" />
 
     <EditText
-        android:id="@+id/editText3"
-        android:layout_width="wrap_content"
+        android:id="@+id/editTextTempStarDisplay"
+        android:layout_width="79dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="65dp"
-        android:layout_marginRight="65dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="282dp"
+        android:layout_marginLeft="282dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:text="1" />
+
+    <RatingBar
+        android:id="@+id/ratingBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="141dp"
+        android:numStars="3"
+        android:stepSize="1"
+        android:rating="1" />
 
     <TextView
         android:id="@+id/textView9"
@@ -40,22 +69,24 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="44dp"
-        android:layout_marginLeft="44dp"
-        android:layout_marginTop="401dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="278dp"
         android:text="Privacy" />
 
-    <TextView
-        android:id="@+id/textView8"
+    <EditText
+        android:id="@+id/editText3"
         android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="45dp"
-        android:layout_marginLeft="45dp"
-        android:layout_marginTop="277dp"
-        android:text="Assign To" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="65dp"
+        android:layout_marginRight="65dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
 
     <EditText
         android:id="@+id/editText7"
@@ -65,27 +96,24 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="275dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
+        android:layout_marginTop="185dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginRight="67dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="PICKER" />
 
-    <EditText
-        android:id="@+id/editText8"
+    <TextView
+        android:id="@+id/textView8"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="43dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="338dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="MAPLOCATION" />
+        android:layout_marginStart="42dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="187dp"
+        android:text="Assign To" />
 
     <TextView
         android:id="@+id/textView7"
@@ -94,24 +122,24 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="45dp"
-        android:layout_marginLeft="45dp"
-        android:layout_marginTop="212dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="142dp"
         android:text="Priority" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/editTextCompletedByDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="210dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="66dp"
+        android:layout_marginRight="66dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="SPINNER" />
+        android:text="DATESLIDERPICKER" />
 
     <TextView
         android:id="@+id/textView6"
@@ -120,24 +148,10 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="44dp"
-        android:layout_marginLeft="44dp"
-        android:layout_marginTop="148dp"
-        android:text="Done By" />
-
-    <EditText
-        android:id="@+id/editText5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="146dp"
-        android:layout_marginEnd="65dp"
-        android:layout_marginRight="65dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="DATESLIDERPICKER" />
+        android:layout_marginStart="43dp"
+        android:layout_marginLeft="43dp"
+        android:layout_marginTop="96dp"
+        android:text="Completed By" />
 
     <TextView
         android:id="@+id/textView5"
@@ -148,7 +162,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="43dp"
         android:layout_marginLeft="43dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:text="Task Name" />
 
     <EditText
@@ -158,24 +172,12 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="81dp"
-        android:layout_marginEnd="66dp"
-        android:layout_marginRight="66dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginRight="67dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="43dp"
-        android:layout_marginLeft="43dp"
-        android:layout_marginTop="341dp"
-        android:text="Location" />
 
     <TextView
         android:id="@+id/textView4"
@@ -184,24 +186,18 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="42dp"
-        android:layout_marginLeft="42dp"
-        android:layout_marginTop="81dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="50dp"
         android:text="Description" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonCreateTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="453dp"
-        android:layout_marginEnd="149dp"
-        android:layout_marginRight="149dp"
-        android:layout_marginBottom="231dp"
+        android:layout_marginTop="327dp"
         android:text="@string/create" />
 
 </RelativeLayout>
