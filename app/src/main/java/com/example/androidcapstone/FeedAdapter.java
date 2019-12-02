@@ -9,14 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidcapstone.Model.Task;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PersonalFeedViewHolder> {
 
-    private List<TaskData> task = new ArrayList<>();
+    private List<Task> task = new ArrayList<>();
     private Activity activity;
-    public FeedAdapter(List<TaskData> list, Activity activity) {
+    public FeedAdapter(List<Task> list, Activity activity) {
         task.addAll(list);
         this.activity = activity;
     }
@@ -29,12 +31,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PersonalFeedVi
 
     @Override
     public void onBindViewHolder(@NonNull PersonalFeedViewHolder holder, int i) {
-        TaskData data = task.get(i);
+        Task data = task.get(i);
 
-        holder.taskName.setText(data.task);
-        holder.deadline.setText(data.deadline);
-        holder.posted.setText(data.postedTime);
-        holder.desc.setText(data.description);
+        holder.taskName.setText(data.getM_TaskName());
+        holder.deadline.setText(data.getM_DueDate());
+        holder.posted.setText(data.getM_PostedTime());
+        holder.desc.setText(data.getM_TaskDescription());
     }
 
     @Override
