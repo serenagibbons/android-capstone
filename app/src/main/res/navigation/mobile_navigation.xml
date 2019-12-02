@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_personalFeed">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.androidcapstone.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_personalFeed"
+        android:name="com.example.androidcapstone.ui.personal_feed.PersonalFeedFragment"
+        android:label="@string/personal_feed"
+        tools:layout="@layout/fragment_personal" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.androidcapstone.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_publicFeed"
+        android:name="com.example.androidcapstone.ui.public_feed.PublicFeedFragment"
+        android:label="@string/public_feed"
+        tools:layout="@layout/fragment_public" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_calendar"
         android:name="com.example.androidcapstone.ui.calendar.CalendarFragment"
         android:label="@string/title_calendar"
         tools:layout="@layout/fragment_calendar" />

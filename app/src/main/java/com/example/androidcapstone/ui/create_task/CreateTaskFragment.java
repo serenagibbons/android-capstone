@@ -1,13 +1,11 @@
 package com.example.androidcapstone.ui.create_task;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.text.InputType;
@@ -18,11 +16,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.example.androidcapstone.MainActivity;
 import com.example.androidcapstone.R;
-import com.example.androidcapstone.ui.dashboard.DashboardViewModel;
+import com.example.androidcapstone.ui.create_task.CreateTaskViewModel;
 
 import java.util.Calendar;
 
