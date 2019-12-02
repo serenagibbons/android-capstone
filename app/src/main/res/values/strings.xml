@@ -4,4 +4,5 @@
     <string name="public_feed">Public Feed</string>
     <string name="title_calendar">Calendar</string>
     <string name="create">Create task</string>
+    <string name="icon_description">Task creator\'s icon</string>
 </resources>

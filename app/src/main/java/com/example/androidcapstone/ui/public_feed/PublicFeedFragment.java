@@ -32,4 +32,5 @@ public class PublicFeedFragment extends Fragment {
         });
         return root;
     }
+
 }
