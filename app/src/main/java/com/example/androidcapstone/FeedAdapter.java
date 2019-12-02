@@ -32,7 +32,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PersonalFeedVi
         TaskData data = task.get(i);
 
         holder.taskName.setText(data.task);
-        holder.deadline.setText(data.date);
+        holder.deadline.setText(data.deadline);
+        holder.posted.setText(data.postedTime);
+        holder.desc.setText(data.description);
     }
 
     @Override
@@ -40,18 +42,23 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PersonalFeedVi
         return task.size();
     }
 
-    public class PersonalFeedViewHolder extends RecyclerView.ViewHolder {
+     class PersonalFeedViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView image;
-        public TextView taskName;
-        public TextView deadline;
+        ImageView image;
+        TextView taskName;
+        TextView deadline;
+        TextView posted;
+        TextView desc;
 
-        public PersonalFeedViewHolder(@NonNull View itemView) {
+        PersonalFeedViewHolder(@NonNull View itemView) {
             super(itemView);
 
             image = itemView.findViewById(R.id.icon);
             taskName = itemView.findViewById(R.id.name_task);
             deadline = itemView.findViewById(R.id.deadline_time);
+            posted = itemView.findViewById(R.id.posted_date);
+            desc = itemView.findViewById(R.id.task_description);
+
         }
     }
 }

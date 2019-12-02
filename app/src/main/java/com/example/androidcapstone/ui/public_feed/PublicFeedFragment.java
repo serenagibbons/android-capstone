@@ -31,17 +31,31 @@ public class PublicFeedFragment extends Fragment {
         List<TaskData> test = new ArrayList<>();
         TaskData t = new TaskData();
         t.task = "task4";
-        t.date = "12/30/19";
+        t.postedTime = "3 min ago";
+        t.deadline = "12/30/19";
+        t.description = "task description goes here";
         test.add(t);
 
         t = new TaskData();
         t.task = "task5";
-        t.date = "12/31/19";
+        t.postedTime = "4 min ago";
+        t.deadline = "12/31/19";
+        t.description = "task description goes here";
         test.add(t);
 
         t = new TaskData();
         t.task = "task6";
-        t.date = "1/1/20";
+        t.postedTime = "5 min ago";
+        t.deadline = "1/1/20";
+        t.description = "task description goes here";
+        test.add(t);
+
+        t = new TaskData();
+        t.task = "task7";
+        t.postedTime = "5 min ago";
+        t.deadline = "1/9/20";
+        t.description = "task description goes here";
+
         test.add(t);
 
         // create recycler view adapter and layout manager

@@ -32,17 +32,23 @@ public class PersonalFeedFragment extends Fragment {
         List<TaskData> test = new ArrayList<>();
         TaskData t = new TaskData();
         t.task = "task1";
-        t.date = "12/2/19";
+        t.deadline = "12/2/19";
+        t.postedTime = "10 min ago";
+        t.description = "task description goes here";
         test.add(t);
 
         t = new TaskData();
         t.task = "task2";
-        t.date = "12/20/19";
+        t.postedTime = "50 min ago";
+        t.deadline = "12/20/19";
+        t.description = "task description goes here";
         test.add(t);
 
         t = new TaskData();
         t.task = "task3";
-        t.date = "12/27/19";
+        t.postedTime = "12/1/19";
+        t.deadline = "12/27/19";
+        t.description = "task description goes here";
         test.add(t);
 
         // create recycler view adapter and layout manager
