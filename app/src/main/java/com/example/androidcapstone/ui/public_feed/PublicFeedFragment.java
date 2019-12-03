@@ -56,18 +56,6 @@ public class PublicFeedFragment extends Fragment {
         test.add(t);
         t = new Task();
         test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
 
         // create recycler view adapter and layout manager
         FeedAdapter adapter = new FeedAdapter(test,getActivity());
