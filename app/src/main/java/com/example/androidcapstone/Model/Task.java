@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class Task {
     //Variables - 'F' means to follow this format
-    //int m_Id; //Unique ID MAY NOT NEED
+    String m_TaskID; //Unique ID MAY NOT NEED
     String m_Creator; //Email of Creator
     String [] m_AssignedTo; //Email of people assigned to, can have multiple
     String m_TaskName; //Name of task
