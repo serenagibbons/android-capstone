@@ -6,7 +6,7 @@
     tools:context=".ui.create_task.CreateTaskFragment">
 
     <EditText
-        android:id="@+id/editText8"
+        android:id="@+id/editTextMapLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -49,6 +49,11 @@
         android:layout_marginRight="50dp"
         android:ems="10"
         android:text="1" />
+
+    <FrameLayout
+        android:id="@+id/child_map_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <RatingBar
         android:id="@+id/ratingBar1"

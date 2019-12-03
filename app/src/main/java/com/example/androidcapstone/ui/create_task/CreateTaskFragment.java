@@ -1,8 +1,10 @@
 package com.example.androidcapstone.ui.create_task;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 
 import com.example.androidcapstone.MainActivity;
+import com.example.androidcapstone.MapsActivity;
 import com.example.androidcapstone.R;
 import com.example.androidcapstone.ui.create_task.CreateTaskViewModel;
 
@@ -28,7 +31,7 @@ public class CreateTaskFragment extends Fragment {
     private CreateTaskViewModel createTaskViewModel;
     DatePickerDialog picker;
 
-    EditText completedBy, tempStarDisplay;
+    EditText completedBy, tempStarDisplay, editTextMapLocation;
     Button createTask;
     RatingBar rBar;
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -39,12 +42,13 @@ public class CreateTaskFragment extends Fragment {
 
         completedBy = root.findViewById(R.id.editTextCompletedByDate);
         tempStarDisplay = root.findViewById(R.id.editTextTempStarDisplay);
-
+        editTextMapLocation = root.findViewById(R.id.editTextMapLocation);
         //Priority Bar
         rBar = root.findViewById(R.id.ratingBar1);
         //Create Task Button
         createTask = root.findViewById(R.id.buttonCreateTask);
 
+        //Completion Date EditText
         completedBy.setInputType(InputType.TYPE_NULL);
         completedBy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +70,21 @@ public class CreateTaskFragment extends Fragment {
             }
         });
 
+        //Map Location Picker
+        editTextMapLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), MapsActivity.class);
+                startActivity(i);
+//                Fragment childFragment = new MapsActivity();
+//                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//                transaction.replace(R.id.child_fragment_container, childFragment).commit();
+
+
+            }
+        });
+
+        //Create Task Button
         createTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
