@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidcapstone.FeedAdapter;
+import com.example.androidcapstone.Model.Task;
 import com.example.androidcapstone.R;
-import com.example.androidcapstone.TaskData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,34 +28,45 @@ public class PublicFeedFragment extends Fragment {
                 ViewModelProviders.of(this).get(PublicFeedViewModel.class);
         View root = inflater.inflate(R.layout.fragment_public, container, false);
         // add dummy data
-        List<TaskData> test = new ArrayList<>();
-        TaskData t = new TaskData();
-        t.task = "task4";
-        t.postedTime = "3 min ago";
-        t.deadline = "12/30/19";
-        t.description = "task description goes here";
+
+        List<Task> test = new ArrayList<>();
+        Task t = new Task();
         test.add(t);
-
-        t = new TaskData();
-        t.task = "task5";
-        t.postedTime = "4 min ago";
-        t.deadline = "12/31/19";
-        t.description = "task description goes here";
+        t = new Task();
         test.add(t);
-
-        t = new TaskData();
-        t.task = "task6";
-        t.postedTime = "5 min ago";
-        t.deadline = "1/1/20";
-        t.description = "task description goes here";
+        t = new Task();
         test.add(t);
-
-        t = new TaskData();
-        t.task = "task7";
-        t.postedTime = "5 min ago";
-        t.deadline = "1/9/20";
-        t.description = "task description goes here";
-
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
         test.add(t);
 
         // create recycler view adapter and layout manager

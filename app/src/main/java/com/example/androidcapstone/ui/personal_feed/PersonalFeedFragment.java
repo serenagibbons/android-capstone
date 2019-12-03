@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidcapstone.FeedAdapter;
+import com.example.androidcapstone.Model.Task;
 import com.example.androidcapstone.R;
-import com.example.androidcapstone.TaskData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,27 +29,40 @@ public class PersonalFeedFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_personal, container, false);
 
         // add dummy data
-        List<TaskData> test = new ArrayList<>();
-        TaskData t = new TaskData();
-        t.task = "task1";
-        t.deadline = "12/2/19";
-        t.postedTime = "10 min ago";
-        t.description = "task description goes here";
+        List<Task> test = new ArrayList<>();
+        Task t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
+        test.add(t);
+        t = new Task();
         test.add(t);
 
-        t = new TaskData();
-        t.task = "task2";
-        t.postedTime = "50 min ago";
-        t.deadline = "12/20/19";
-        t.description = "task description goes here";
-        test.add(t);
-
-        t = new TaskData();
-        t.task = "task3";
-        t.postedTime = "12/1/19";
-        t.deadline = "12/27/19";
-        t.description = "task description goes here";
-        test.add(t);
 
         // create recycler view adapter and layout manager
         FeedAdapter adapter = new FeedAdapter(test,getActivity());
