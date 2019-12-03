@@ -12,13 +12,17 @@
         android:title="@string/public_feed" />
 
     <item
+        android:id="@+id/navigation_create_task"
+        android:icon="@drawable/ic_add_box_black_24dp"
+        android:title="@string/create" />
+
+    <item
         android:id="@+id/navigation_calendar"
         android:icon="@drawable/ic_today_black_24dp"
         android:title="@string/title_calendar" />
 
     <item
-        android:id="@+id/navigation_create_task"
-        android:icon="@drawable/ic_add_box_black_24dp"
-        android:title="@string/create" />
-
+        android:id="@+id/navigation_contacts"
+        android:icon="@drawable/ic_book_black_24dp"
+        android:title="@string/contacts" />
 </menu>
