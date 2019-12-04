@@ -65,7 +65,7 @@ public class PersonalFeedFragment extends Fragment {
 
 
         // create recycler view adapter and layout manager
-        FeedAdapter adapter = new FeedAdapter(test,getActivity());
+        FeedAdapter adapter = new FeedAdapter(test, getActivity());
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
 
         // refer to recycler view

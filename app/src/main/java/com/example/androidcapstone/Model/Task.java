@@ -1,5 +1,7 @@
 package com.example.androidcapstone.Model;
 
+import com.google.firebase.firestore.ServerTimestamp;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +26,7 @@ public class Task {
     private String m_Importance; //[F - Low, Medium, High]
     private String m_DueDate; //The day to be completed on [F - Mon, Tue, Wed, Thur, Fri, Sat, Sun]
     private String m_Frequency; //[F - Once, Weekly, BiWeekly]
-    private Date m_CreatedOnDate; //[F - mm/dd/yy]
+    private @ServerTimestamp Date m_CreatedOnDate; //[F - mm/dd/yy] AutoImplemented if null
     private String m_Status; //[F Complete || Incomplete]
     private String m_PostedTime; //[F - hh:mm:ss]
     //double m_Location; //Geolocation (API Possibly) that gives coordinates

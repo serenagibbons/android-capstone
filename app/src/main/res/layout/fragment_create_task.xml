@@ -18,7 +18,7 @@
         android:layout_marginRight="66dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="MAPLOCATION" />
+        android:text="[Select Location]" />
 
     <TextView
         android:id="@+id/textView2"
@@ -49,11 +49,6 @@
         android:layout_marginRight="50dp"
         android:ems="10"
         android:text="1" />
-
-    <FrameLayout
-        android:id="@+id/child_map_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
     <RatingBar
         android:id="@+id/ratingBar1"
@@ -144,7 +139,7 @@
         android:layout_marginRight="66dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="DATESLIDERPICKER" />
+        android:text="[Select Date]" />
 
     <TextView
         android:id="@+id/textView6"
@@ -200,9 +195,13 @@
         android:id="@+id/buttonCreateTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="327dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="146dp"
+        android:layout_marginLeft="146dp"
+        android:layout_marginTop="349dp"
         android:text="@string/create" />
 
 </RelativeLayout>
