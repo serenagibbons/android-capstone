@@ -19,6 +19,7 @@ public class SectionsPageAdapter extends FragmentPagerAdapter {
     }
 
     public SectionsPageAdapter(FragmentManager fm){
+
         super(fm);
     }
 
