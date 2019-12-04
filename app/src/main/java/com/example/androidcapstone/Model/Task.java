@@ -34,20 +34,20 @@ public class Task {
     //Default Dummy Constructor for testing purposes
     public Task ()
     {
-        this.m_Creator = "Dummy Data";
-        this.m_AssignedTo = new String[]{"@Dummy"};
-        this.m_TaskName = "Dummy Task";
-        this.m_TaskDescription = "Dummy Description";
-        this.m_Importance = "HIGH";
-        this.m_DueDate = "13/13/13";
-        this.m_Frequency = "Once";
-        this.m_CreatedOnDate = new Date(11/11/11);
-        this.m_Status = "COMPLETE";
-        //Get current time
-        Date d = new Date();
-        String dateFormat = "hh:mm:ss a";
-        DateFormat df = new SimpleDateFormat(dateFormat);
-        this.m_PostedTime = df.format(d);
+//        this.m_Creator = "Dummy Data";
+//        this.m_AssignedTo = new String[]{"@Dummy"};
+//        this.m_TaskName = "Dummy Task";
+//        this.m_TaskDescription = "Dummy Description";
+//        this.m_Importance = "HIGH";
+//        this.m_DueDate = "13/13/13";
+//        this.m_Frequency = "Once";
+//        this.m_CreatedOnDate = new Date(11/11/11);
+//        this.m_Status = "COMPLETE";
+//        //Get current time
+//        Date d = new Date();
+//        String dateFormat = "hh:mm:ss a";
+//        DateFormat df = new SimpleDateFormat(dateFormat);
+//        this.m_PostedTime = df.format(d);
     }
 
     public String getM_PostedTime() {

@@ -18,31 +18,39 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.ToggleButton;
 
 import com.example.androidcapstone.MainActivity;
 import com.example.androidcapstone.MapsActivity;
+import com.example.androidcapstone.Model.Task;
 import com.example.androidcapstone.R;
 import com.example.androidcapstone.ui.create_task.CreateTaskViewModel;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 
 public class CreateTaskFragment extends Fragment {
-
+    FirebaseFirestore db;
     private CreateTaskViewModel createTaskViewModel;
     DatePickerDialog picker;
 
-    EditText completedBy, tempStarDisplay, editTextMapLocation;
-    Button createTask;
+    EditText taskName, taskDescription, completedBy, tempStarDisplay, editTextMapLocation;
+    Button createTask, pickLocation;
+    ToggleButton privacyBtn;
     RatingBar rBar;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
         createTaskViewModel =
                 ViewModelProviders.of(this).get(CreateTaskViewModel.class);
         View root = inflater.inflate(R.layout.fragment_create_task, container, false);
-
+        taskName = root.findViewById(R.id.editTextTaskName);
+        taskDescription = root.findViewById(R.id.editTextDescription);
         completedBy = root.findViewById(R.id.editTextCompletedByDate);
         tempStarDisplay = root.findViewById(R.id.editTextTempStarDisplay);
         editTextMapLocation = root.findViewById(R.id.editTextMapLocation);
+        pickLocation = root.findViewById(R.id.btnLocationPicker);
+        privacyBtn = root.findViewById(R.id.toggleButtonPrivacy);
         //Priority Bar
         rBar = root.findViewById(R.id.ratingBar1);
         //Create Task Button
@@ -71,16 +79,11 @@ public class CreateTaskFragment extends Fragment {
         });
 
         //Map Location Picker
-        editTextMapLocation.setOnClickListener(new View.OnClickListener() {
+        pickLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), MapsActivity.class);
                 startActivity(i);
-//                Fragment childFragment = new MapsActivity();
-//                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//                transaction.replace(R.id.child_fragment_container, childFragment).commit();
-
-
             }
         });
 
@@ -88,14 +91,45 @@ public class CreateTaskFragment extends Fragment {
         createTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                float priority = rBar.getRating(); //Gets priority, 1.0 = Low, 2.0 = Medium, 3.0 = High
-                tempStarDisplay.setText(Float.toString(priority));
+                //Fields
+                String m_TaskName = taskName.getText().toString().trim(); //Req
+                String m_Description = taskDescription.getText().toString().trim(); //Req
+                String m_CompletedBy = completedBy.getText().toString().trim(); //Req
+                String m_Priority = checkRating(); //Req
+                String m_MapLocation = taskName.getText().toString().trim(); //Optional
+                //Assign To
+                String m_Privacy = (privacyBtn.isChecked() ? "Public" : "Private");
+                //Check all required are filled
+                //Firestore instance
+                db = FirebaseFirestore.getInstance();
+                CollectionReference dbProducts = db.collection("Task");
+//                Task task = new Task(
+//                        m_TaskName,
+//                        m_Description,
+//                        m_CompletedBy,
+//                        m_Priority,
+//                        m_MapLocation,
+//                        m_Privacy
+//                );
+
             }
         });
 
         return root;
     }
 
+    private String checkRating(){
+        int rating = (int)rBar.getRating();
+        switch (rating){
+            case 1:
+                return "Low";
+            case 2:
+                return "Medium";
+            case 3:
+                return "High";
+        }
+        return "Empty";
+    }
 /*
     private CreateTaskViewModel mViewModel;
 
