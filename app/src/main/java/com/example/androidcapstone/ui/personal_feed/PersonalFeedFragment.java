@@ -14,13 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidcapstone.FeedAdapter;
 import com.example.androidcapstone.Model.Task;
 import com.example.androidcapstone.R;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class PersonalFeedFragment extends Fragment {
 
     private PersonalFeedViewModel personalFeedViewModel;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference publicTaskRef = db.collection("Task");
+    private FeedAdapter personalAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -28,54 +32,41 @@ public class PersonalFeedFragment extends Fragment {
                 ViewModelProviders.of(this).get(PersonalFeedViewModel.class);
         View root = inflater.inflate(R.layout.fragment_personal, container, false);
 
-        // add dummy data
-        List<Task> test = new ArrayList<>();
-        Task t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
+        setUpPersonalRecyclerView(root);
+
+        return root;
+    }
+
+    private void setUpPersonalRecyclerView(View root) {
+        Query query = publicTaskRef.whereEqualTo("m_Privacy", "Private");
+
+        //Query query = publicTaskRef.orderBy("m_TaskName", Query.Direction.DESCENDING);
 
 
-        // create recycler view adapter and layout manager
-        FeedAdapter adapter = new FeedAdapter(test, getActivity());
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
+        FirestoreRecyclerOptions<Task> tasks = new FirestoreRecyclerOptions.Builder<Task>()
+                .setQuery(query, Task.class)
+                .build();
+
+        personalAdapter = new FeedAdapter(tasks);
+
 
         // refer to recycler view
         RecyclerView recyclerView = root.findViewById(R.id.personal_feed_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(personalAdapter);
 
-        // Link the adapter to the RecyclerView
-        recyclerView.setAdapter(adapter);
-        // Set layout for the RecyclerView
-        recyclerView.setLayoutManager(manager);
+    }
 
-        return root;
+    @Override
+    public void onStart() {
+        super.onStart();
+        personalAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        personalAdapter.stopListening();
     }
 }

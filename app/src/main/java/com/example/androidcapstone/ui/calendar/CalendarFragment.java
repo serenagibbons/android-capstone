@@ -48,7 +48,7 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
 
         calendarView.setOnDateChangedListener(this);
         calendarView.setOnMonthChangedListener(this);
-        displayCurrentMonthsTaskits(calendarView.getCurrentDate());
+        //displayCurrentMonthsTaskits(calendarView.getCurrentDate());
         return root;
     }
 
@@ -103,11 +103,12 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
 
     @Override
     public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
-        displayCurrentMonthsTaskits(date);
+        //displayCurrentMonthsTaskits(date);
     }
     
-    private void displayCurrentMonthsTaskits(CalendarDay date)
+    /*private void displayCurrentMonthsTaskits(CalendarDay date)
     {
+
         Task t = new Task();
         test.add(t);
         t = new Task();
@@ -160,11 +161,11 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
         adapter.notifyDataSetChanged();
 
     }
-
+*/
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected)
     {
-        test.clear();
+        /*test.clear();
         // create recycler view adapter and layout manager
         FeedAdapter adapter = new FeedAdapter(test,getActivity());
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
@@ -176,6 +177,6 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
         calendarRecyclerView.setLayoutManager(manager);
 
         adapter.notifyDataSetChanged();
-
+*/
     }
 }
