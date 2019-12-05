@@ -34,8 +34,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PersonalFeedVi
         Task data = task.get(i);
 
         holder.taskName.setText(data.getM_TaskName());
-        holder.deadline.setText(data.getM_DueDate());
-        holder.posted.setText(data.getM_PostedTime());
+        //holder.deadline.setText(data.getM_DueDate());
+        //holder.posted.setText(data.getM_PostedTime());
         holder.desc.setText(data.getM_TaskDescription());
     }
 

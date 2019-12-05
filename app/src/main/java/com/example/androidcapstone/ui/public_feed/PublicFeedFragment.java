@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.androidcapstone.FeedAdapter;
 import com.example.androidcapstone.Model.Task;
@@ -21,12 +22,12 @@ import java.util.List;
 public class PublicFeedFragment extends Fragment {
 
     private PublicFeedViewModel publicFeedViewModel;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         publicFeedViewModel =
                 ViewModelProviders.of(this).get(PublicFeedViewModel.class);
         View root = inflater.inflate(R.layout.fragment_public, container, false);
+
         // add dummy data
 
         List<Task> test = new ArrayList<>();

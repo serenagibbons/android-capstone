@@ -1,9 +1,22 @@
 <resources>
-    <string name="app_name">Android Capstone</string>
-    <string name="title_home">Home</string>
+    <string name="app_name">Taskr</string>
     <string name="personal_feed">Personal Feed</string>
     <string name="public_feed">Public Feed</string>
-    <string name="title_dashboard">Dashboard</string>
     <string name="title_calendar">Calendar</string>
     <string name="create">Create task</string>
+    <string name="icon_description">Task creator\'s icon</string>
+    <string name="contacts">Contacts</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="tab_text_1">Register</string>
+    <string name="tab_text_2">Login</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login_screen">LoginScreenActivity</string>
+    <string name="google_maps_key">AIzaSyDwM42eGcN2nLPGLa11y3fFIG55OGL28Wg</string>
+    <string name="task_name">Task Name</string>
+    <string name="description">Description</string>
+    <string name="assign_to">Assign To</string>
+    <string name="priority">Priority</string>
+    <string name="completed_by">Completed By</string>
+
 </resources>
