@@ -129,7 +129,7 @@ public class CreateTaskFragment extends Fragment {
                             m_Description,
                             m_Priority,
                             m_MapLocation,
-                            date1,
+                            //date1,
                             "Incomplete",
                             m_Privacy
                     );
