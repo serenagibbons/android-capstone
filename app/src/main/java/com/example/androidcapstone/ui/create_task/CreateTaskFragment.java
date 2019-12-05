@@ -85,6 +85,7 @@ public class CreateTaskFragment extends Fragment {
             }
         });
 
+
         //Map Location Picker
         pickLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +130,7 @@ public class CreateTaskFragment extends Fragment {
                             m_Description,
                             m_Priority,
                             m_MapLocation,
-                            //date1,
+                            date1,
                             "Incomplete",
                             m_Privacy
                     );
@@ -190,19 +191,5 @@ public class CreateTaskFragment extends Fragment {
         }
         return "Empty";
     }
-/*
-    private CreateTaskViewModel mViewModel;
-
-    public static CreateTaskFragment newInstance() {
-        return new CreateTaskFragment();
-    }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(CreateTaskViewModel.class);
-        // TODO: Use the ViewModel
-    }*/
 
 }

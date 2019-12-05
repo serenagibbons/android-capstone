@@ -38,16 +38,14 @@ public class PersonalFeedFragment extends Fragment {
     }
 
     private void setUpPersonalRecyclerView(View root) {
+
         Query query = publicTaskRef.whereEqualTo("m_Privacy", "Private");
-
-        //Query query = publicTaskRef.orderBy("m_TaskName", Query.Direction.DESCENDING);
-
 
         FirestoreRecyclerOptions<Task> tasks = new FirestoreRecyclerOptions.Builder<Task>()
                 .setQuery(query, Task.class)
                 .build();
 
-        personalAdapter = new FeedAdapter(tasks);
+        personalAdapter = new FeedAdapter(getContext(), tasks);
 
 
         // refer to recycler view
