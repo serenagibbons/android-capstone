@@ -1,5 +1,6 @@
 package com.example.androidcapstone.ui.calendar;
 
+import android.content.ReceiverCallNotAllowedException;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,22 +19,41 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidcapstone.FeedAdapter;
 import com.example.androidcapstone.Model.Task;
 import com.example.androidcapstone.R;
+import com.example.androidcapstone.ui.public_feed.PublicFeedViewModel;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
+import com.prolificinteractive.materialcalendarview.spans.DotSpan;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 
-public class CalendarFragment extends Fragment implements OnMonthChangedListener, OnDateSelectedListener {
+public class CalendarFragment extends Fragment implements OnMonthChangedListener, OnDateSelectedListener{
 
     private CalendarViewModel calendarViewModel;
     private MaterialCalendarView calendarView;
     private RecyclerView calendarRecyclerView;
+    List<CalendarDay> dates;
     List<Task> test = new ArrayList<>();
     //private ArrayList<String> list = new ArrayList<>();
     private ArrayAdapter<String> adapter;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference calTaskRef = db.collection("Task");
+    private FeedAdapter calAdapter;
+
+    public CalendarFragment() {
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,111 +66,62 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
         calendarRecyclerView = root.findViewById(R.id.calendar_feed_recycler_view);
 
         //Fill
-
         calendarView.setOnDateChangedListener(this);
         calendarView.setOnMonthChangedListener(this);
-        //displayCurrentMonthsTaskits(calendarView.getCurrentDate());
+
+        CalendarDay day1 = CalendarDay.today();
+        CalendarDay day2 = new CalendarDay(2019,9,2);
+        dates = new ArrayList<>();
+        dates.add(day1);
+        dates.add(day2);
+        calendarView.addDecorator(new DayViewDecorator() {
+            @Override
+            public boolean shouldDecorate(CalendarDay day) {
+
+
+                return dates.contains(day);
+//
+//                Calendar cal1 = day.getCalendar();
+//                Calendar cal2 = Calendar.getInstance();
+//
+//                return (cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA)
+//                        && cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+//                        && cal1.get(Calendar.DAY_OF_YEAR) ==
+//                        cal2.get(Calendar.DAY_OF_YEAR));
+            }
+
+            @Override
+            public void decorate(DayViewFacade view) {
+                view.setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.logo));
+            }
+        });
+
+
+        displayCurrentMonthsTaskits(calendarView.getCurrentDate());
+        setUpCalRecyclerView(root);
+
         return root;
     }
 
-    //Converts 0-11 integer month values to String value of month name.
-    private String convertIntToMonth(int i)
-    {
-        String month = "INVALID DIGIT GIVEN (0-11)";
-        switch(i)
-        {
-            case 0:
-                month = "January";
-                break;
-            case 1:
-                month = "February";
-                break;
-            case 2:
-                month = "March";
-                break;
-            case 3:
-                month = "April";
-                break;
-            case 4:
-                month = "May";
-                break;
-            case 5:
-                month = "June";
-                break;
-            case 6:
-                month = "July";
-                break;
-            case 7:
-                month = "August";
-                break;
-            case 8:
-                month = "September";
-                break;
-            case 9:
-                month = "October";
-                break;
-            case 10:
-                month = "November";
-                break;
-            case 11:
-                month = "December";
-                break;
-        }
-        return month;
-    }
-
-
-
-
     @Override
     public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
-        //displayCurrentMonthsTaskits(date);
+        displayCurrentMonthsTaskits(date);
     }
-    
-    /*private void displayCurrentMonthsTaskits(CalendarDay date)
-    {
 
-        Task t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
-        t = new Task();
-        test.add(t);
+    private void displayCurrentMonthsTaskits(CalendarDay date) {
 
+        test.clear();
+        for(CalendarDay day : dates)
+        {
+            if(day.getMonth() == date.getMonth())
+            {
+                Task testTask = new Task();
+                //testTask.setM_CreatedOnDate(date.getDate());
+                test.add(testTask);
+            }
+        }
         // create recycler view adapter and layout manager
-        FeedAdapter adapter = new FeedAdapter(test,getActivity());
+        /*FeedAdapter adapter = new FeedAdapter(test, getActivity());
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
 
 
@@ -158,16 +130,25 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
         // Set layout for the RecyclerView
         calendarRecyclerView.setLayoutManager(manager);
 
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();*/
+
 
     }
-*/
+
     @Override
-    public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected)
-    {
-        /*test.clear();
-        // create recycler view adapter and layout manager
-        FeedAdapter adapter = new FeedAdapter(test,getActivity());
+    public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+        test.clear();
+
+        //Pull all data with m_DueDate == date.getDate();
+        //Currently pulling dummy data
+        if(dates.contains(date))
+        {
+            Task testTask = new Task();
+            //testTask.setM_CreatedOnDate(date.getDate());
+            test.add(testTask);
+        }
+        /*// create recycler view adapter and layout manager
+        FeedAdapter adapter = new FeedAdapter(test, getActivity());
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
 
 
@@ -176,7 +157,40 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
         // Set layout for the RecyclerView
         calendarRecyclerView.setLayoutManager(manager);
 
-        adapter.notifyDataSetChanged();
-*/
+        adapter.notifyDataSetChanged();*/
+
     }
+
+    private void setUpCalRecyclerView(View root) {
+        //Query query = publicTaskRef.orderBy("m_TaskName", Query.Direction.DESCENDING);
+        Query query = calTaskRef.orderBy("m_Date");
+
+
+        FirestoreRecyclerOptions<Task> tasks = new FirestoreRecyclerOptions.Builder<Task>()
+                .setQuery(query, Task.class)
+                .build();
+
+        calAdapter = new FeedAdapter(tasks);
+
+
+        // refer to recycler view
+        RecyclerView recyclerView = root.findViewById(R.id.calendar_feed_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(calAdapter);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        calAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        calAdapter.stopListening();
+    }
+
 }
