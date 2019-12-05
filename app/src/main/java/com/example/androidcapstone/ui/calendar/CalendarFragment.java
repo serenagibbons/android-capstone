@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -18,17 +19,19 @@ import com.example.androidcapstone.Model.Task;
 import com.example.androidcapstone.R;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalendarFragment extends Fragment implements OnMonthChangedListener{
+public class CalendarFragment extends Fragment implements OnMonthChangedListener, OnDateSelectedListener {
 
     private CalendarViewModel calendarViewModel;
     private MaterialCalendarView calendarView;
     private RecyclerView calendarRecyclerView;
-    private ArrayList<String> list = new ArrayList<>();
+    List<Task> test = new ArrayList<>();
+    //private ArrayList<String> list = new ArrayList<>();
     private ArrayAdapter<String> adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -40,6 +43,10 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
         //Initialize views
         calendarView = root.findViewById(R.id.calendarView);
         calendarRecyclerView = root.findViewById(R.id.calendar_feed_recycler_view);
+
+        //Fill
+
+        calendarView.setOnDateChangedListener(this);
         calendarView.setOnMonthChangedListener(this);
         displayCurrentMonthsTaskits(calendarView.getCurrentDate());
         return root;
@@ -92,6 +99,8 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
     }
 
 
+
+
     @Override
     public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
         displayCurrentMonthsTaskits(date);
@@ -99,7 +108,6 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
     
     private void displayCurrentMonthsTaskits(CalendarDay date)
     {
-        List<Task> test = new ArrayList<>();
         Task t = new Task();
         test.add(t);
         t = new Task();
@@ -149,10 +157,24 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
         // Set layout for the RecyclerView
         calendarRecyclerView.setLayoutManager(manager);
 
+        adapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected)
+    {
+        test.clear();
+        // create recycler view adapter and layout manager
+        FeedAdapter adapter = new FeedAdapter(test,getActivity());
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
 
 
-        list.clear();
-        list.add("Now displaying all of " + convertIntToMonth(date.getMonth()) + "'s Taskits!");
+        // Link the adapter to the RecyclerView
+        calendarRecyclerView.setAdapter(adapter);
+        // Set layout for the RecyclerView
+        calendarRecyclerView.setLayoutManager(manager);
+
         adapter.notifyDataSetChanged();
 
     }
