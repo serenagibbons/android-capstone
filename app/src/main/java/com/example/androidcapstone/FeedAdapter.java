@@ -35,11 +35,13 @@ public class FeedAdapter extends FirestoreRecyclerAdapter<Task, FeedAdapter.Feed
 
     }
 
+    String dateString;
+
     @Override
     protected void onBindViewHolder(FeedHolder holder, int i, final Task task) {
         holder.taskName.setText(task.getM_TaskName());
         //Timestamp t = task.getM_DueDate();
-        String dateString = null;
+
         SimpleDateFormat sdfr = new SimpleDateFormat("MM/dd/yyyy");
         try{
             dateString = sdfr.format( task.getM_DueDate() );
@@ -58,7 +60,7 @@ public class FeedAdapter extends FirestoreRecyclerAdapter<Task, FeedAdapter.Feed
                 intent.putExtra("taskit title", task.getM_TaskName());
                 intent.putExtra("taskit creator", task.getM_Creator());
                 intent.putExtra("taskit priority", task.getM_Importance());
-                intent.putExtra("taskit deadline", task.getM_DueDate());
+                intent.putExtra("taskit deadline", dateString);
                 intent.putExtra("taskit description", task.getM_TaskDescription());
                 //intent.putExtra("taskit posted date", task.getM_PostedTime());
                 mContext.startActivity(intent);

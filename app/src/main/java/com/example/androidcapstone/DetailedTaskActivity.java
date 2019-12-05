@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 public class DetailedTaskActivity extends AppCompatActivity {
 
     TextView title, creator, priority, deadline, postDate, description;
@@ -46,16 +48,49 @@ public class DetailedTaskActivity extends AppCompatActivity {
         Intent i = getIntent();
         Bundle b = i.getExtras();
         if (b != null) {
+
+
+            String createdByString = String.format(getResources().getString(R.string.set_creator), i.getStringExtra("taskit creator"));
+            String deadlineString = String.format(getResources().getString(R.string.set_deadline), i.getStringExtra("taskit deadline"));
+            String priorityString = String.format(getResources().getString(R.string.set_priority), i.getStringExtra("taskit priority"));
+            String descriptionString = String.format(getResources().getString(R.string.set_description), i.getStringExtra("taskit description"));
+
             title.setText(i.getStringExtra("taskit title"));
-            creator.setText(i.getStringExtra("taskit creator"));
-            priority.setText(i.getStringExtra("taskit priority"));
-            deadline.setText(i.getStringExtra("taskit deadline"));
+            creator.setText(createdByString);
+            priority.setText(priorityString);
+            deadline.setText(deadlineString);
             postDate.setText(i.getStringExtra("taskit posted date"));
-            description.setText(i.getStringExtra("taskit description"));
+            description.setText(descriptionString);
 
 
         }
 
+    }
+
+    private void updateDatabase(String privacy) {
+        if (privacy.equals("Public")) {
+
+            //create cust object of HashMap type taking key as string and value as object
+
+            HashMap<String, Object> cust1 = new HashMap<>();
+            cust1.put("m_Privacy", "Private");
+/*
+                myRef=db.getReference("padhle");
+
+                //listener which tells about whether data is inserted or not.
+                // update command and listeners are added
+                myRef.updateChildren(cust1, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        Toast.makeText(MainActivity.this,"Inserted successfully",Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+
+
+        }*/
+        }
     }
 
 }
