@@ -48,7 +48,9 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
+
+
+    <com.google.android.gms.common.SignInButton
         android:id="@+id/loginGoogle"
         android:layout_width="220dp"
         android:layout_height="50dp"
