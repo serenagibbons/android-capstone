@@ -163,14 +163,14 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
 
     private void setUpCalRecyclerView(View root) {
         //Query query = publicTaskRef.orderBy("m_TaskName", Query.Direction.DESCENDING);
-        Query query = calTaskRef.orderBy("m_Date");
+        Query query = calTaskRef.orderBy("m_Task");
 
 
         FirestoreRecyclerOptions<Task> tasks = new FirestoreRecyclerOptions.Builder<Task>()
                 .setQuery(query, Task.class)
                 .build();
 
-        calAdapter = new FeedAdapter(tasks);
+        calAdapter = new FeedAdapter(getContext(), tasks);
 
 
         // refer to recycler view

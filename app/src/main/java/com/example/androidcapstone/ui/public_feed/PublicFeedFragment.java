@@ -47,7 +47,7 @@ public class PublicFeedFragment extends Fragment {
                 .setQuery(query, Task.class)
                 .build();
 
-        adapter = new FeedAdapter(tasks);
+        adapter = new FeedAdapter(getContext(), tasks);
 
 
         // refer to recycler view

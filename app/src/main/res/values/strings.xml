@@ -18,5 +18,7 @@
     <string name="assign_to">Assign To</string>
     <string name="priority">Priority</string>
     <string name="completed_by">Completed By</string>
+    <string name="leave_task">Leave Task</string>
+    <string name="accept_task">Accept Task</string>
 
 </resources>
