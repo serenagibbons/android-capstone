@@ -4,103 +4,69 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.androidcapstone.FeedAdapter;
 import com.example.androidcapstone.Model.Task;
 import com.example.androidcapstone.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 public class PublicFeedFragment extends Fragment {
 
-    private static final String KEY_TASK_NAME = "m_TaskName";
-    private static final String KEY_TASK_DESCRIPTION = "m_TaskDescription";
-    private static final String KEY_IMPORTANCE = "m_Importance";
-    private static final String KEY_DEADLINE = "m_DueDate";
-    private static final String KEY_CREATOR = "m_Creator";
-
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DocumentReference noteRef = db.collection("Task").document("b0hiGEGXfucT3G6fnlT3");
     private PublicFeedViewModel publicFeedViewModel;
-    RecyclerView recyclerView;
-    FeedAdapter adapter;
-    RecyclerView.LayoutManager manager;
-    List<Task> taskList;
-    Task taskObj;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference publicTaskRef = db.collection("Task");
+    private FeedAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         publicFeedViewModel =
                 ViewModelProviders.of(this).get(PublicFeedViewModel.class);
         View root = inflater.inflate(R.layout.fragment_public, container, false);
-        // refer to recycler view
-        recyclerView = root.findViewById(R.id.public_feed_recycler_view);
 
+        setUpRecyclerView(root);
 
-        loadNote(getView());
         return root;
     }
 
-
-    private void loadNote(View v){
-        noteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if(documentSnapshot.exists()){
-                    String taskName = documentSnapshot.getString(KEY_TASK_NAME);
-                    String taskDescription = documentSnapshot.getString(KEY_TASK_DESCRIPTION);
-                    String taskImportance = documentSnapshot.getString(KEY_IMPORTANCE);
-                    String taskCreator = documentSnapshot.getString(KEY_CREATOR);
-                    Date taskDeadline = documentSnapshot.getDate(KEY_DEADLINE);
+    private void setUpRecyclerView(View root) {
+        //Query query = publicTaskRef.orderBy("m_TaskName", Query.Direction.DESCENDING);
+        Query query = publicTaskRef.whereEqualTo("m_Privacy", "Public");
 
 
-                    // add dummy data
-                    taskList = new ArrayList<>();
-                    taskObj = new Task();
-                    taskObj.setM_TaskName(taskName);
-                    taskObj.setM_TaskDescription(taskDescription);
-                    taskObj.setM_Creator(taskCreator);
-                    taskObj.setM_Importance(taskImportance);
-                    taskObj.setM_DueDate(taskDeadline);
-                    taskList.add(taskObj);
-                    taskList.add(taskObj);
-                    // create recycler view adapter and layout manager
-                    adapter = new FeedAdapter(taskList,getActivity());
-                    manager = new LinearLayoutManager(getActivity());
-                    // Link the adapter to the RecyclerView
-                    recyclerView.setAdapter(adapter);
-                    // Set layout for the RecyclerView
-                    recyclerView.setLayoutManager(manager);
-                    //Map<String, Object> note = documentSnapshot.getData();
+        FirestoreRecyclerOptions<Task> tasks = new FirestoreRecyclerOptions.Builder<Task>()
+                .setQuery(query, Task.class)
+                .build();
 
-                }else{
-                    Toast.makeText(getContext(),"Document doesn't exist", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(),"Failure: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        adapter = new FeedAdapter(tasks);
+
+
+        // refer to recycler view
+        RecyclerView recyclerView = root.findViewById(R.id.public_feed_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 }

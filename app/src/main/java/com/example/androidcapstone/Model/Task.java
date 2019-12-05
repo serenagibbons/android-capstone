@@ -2,18 +2,8 @@ package com.example.androidcapstone.Model;
 
 import com.google.firebase.firestore.ServerTimestamp;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/*
-    Created By: Kevin Wang
-    Date: 11/30/19
-    Purpose: Used as an object of Tasks, each task has given properties. If a variable
-    has a comment, the user inputs should be consistent with the comment in order for the
-    database to match
-
- */
 public class Task {
     //Variables - 'F' means to follow this format
     private String m_Creator; //Email of Creator
@@ -21,28 +11,26 @@ public class Task {
     private String m_TaskName; //Name of task
     private String m_TaskDescription; //Description of task
     private String m_Importance; //[F - Low, Medium, High]
-    private Date m_DueDate; //The day to be completed on [F - Mon, Tue, Wed, Thur, Fri, Sat, Sun]
-    private @ServerTimestamp Date m_CreatedOnDate; //[F - mm/dd/yy] AutoImplemented if null
+    //private @ServerTimestamp Date m_DueDate; //The day to be completed on [F - Mon, Tue, Wed, Thur, Fri, Sat, Sun]
+    //private @ServerTimestamp Date m_CreatedOnDate; //[F - mm/dd/yy] AutoImplemented if null
     private String m_Status; //[F Complete || Incomplete]
     private String m_Location; //Geolocation (API Possibly) that gives coordinates
     private String m_Privacy; //Public or Private
 
-    //Default Dummy Constructor for testing purposes
+    // default constructor
     public Task ()
-    {
+    {}
 
-    }
-
-    //Parameterized Constructor
+    // parameterized constructor
     public Task(String m_Creator, String m_AssignedTo, String m_TaskName, String m_TaskDescription,
-                String m_Importance, String m_Location, Date m_DueDate, String m_Status, String m_Privacy)
+                String m_Importance, String m_Location, String m_Status, String m_Privacy)
     {
         this.m_Creator = m_Creator;
         this.m_AssignedTo = m_AssignedTo;
         this.m_TaskName = m_TaskName;
         this.m_TaskDescription = m_TaskDescription;
         this.m_Importance = m_Importance;
-        this.m_DueDate = m_DueDate;
+        //this.m_DueDate = m_DueDate;
         this.m_Status = m_Status;
         this.m_Location = m_Location;
         this.m_Privacy = m_Privacy;
@@ -103,30 +91,28 @@ public class Task {
     public void setM_Importance(String m_Importance) {
         this.m_Importance = m_Importance;
     }
-
+/*
     public Date getM_DueDate() {
         return m_DueDate;
     }
-
     public void setM_DueDate(Date m_DueDate) {
         this.m_DueDate = m_DueDate;
-    }
+    }*/
 
     //public String getM_Frequency() {
-   //     return m_Frequency;
+    //     return m_Frequency;
 //    }
 //
 //    public void setM_Frequency(String m_Frequency) {
 //        this.m_Frequency = m_Frequency;
 //    }
-
+/*
     public Date getM_CreatedOnDate() {
         return m_CreatedOnDate;
     }
-
     public void setM_CreatedOnDate(Date m_CreatedOnDate) {
         this.m_CreatedOnDate = m_CreatedOnDate;
-    }
+    }*/
 
     public String getM_Status() {
         return m_Status;

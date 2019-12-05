@@ -19,6 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidcapstone.FeedAdapter;
 import com.example.androidcapstone.Model.Task;
 import com.example.androidcapstone.R;
+import com.example.androidcapstone.ui.public_feed.PublicFeedViewModel;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
@@ -42,6 +47,10 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
     List<Task> test = new ArrayList<>();
     //private ArrayList<String> list = new ArrayList<>();
     private ArrayAdapter<String> adapter;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference calTaskRef = db.collection("Task");
+    private FeedAdapter calAdapter;
 
     public CalendarFragment() {
     }
@@ -89,6 +98,8 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
 
 
         displayCurrentMonthsTaskits(calendarView.getCurrentDate());
+        setUpCalRecyclerView(root);
+
         return root;
     }
 
@@ -105,12 +116,12 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
             if(day.getMonth() == date.getMonth())
             {
                 Task testTask = new Task();
-                testTask.setM_CreatedOnDate(date.getDate());
+                //testTask.setM_CreatedOnDate(date.getDate());
                 test.add(testTask);
             }
         }
         // create recycler view adapter and layout manager
-        FeedAdapter adapter = new FeedAdapter(test, getActivity());
+        /*FeedAdapter adapter = new FeedAdapter(test, getActivity());
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
 
 
@@ -119,7 +130,8 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
         // Set layout for the RecyclerView
         calendarRecyclerView.setLayoutManager(manager);
 
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();*/
+
 
     }
 
@@ -132,10 +144,10 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
         if(dates.contains(date))
         {
             Task testTask = new Task();
-            testTask.setM_CreatedOnDate(date.getDate());
+            //testTask.setM_CreatedOnDate(date.getDate());
             test.add(testTask);
         }
-        // create recycler view adapter and layout manager
+        /*// create recycler view adapter and layout manager
         FeedAdapter adapter = new FeedAdapter(test, getActivity());
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
 
@@ -145,8 +157,40 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
         // Set layout for the RecyclerView
         calendarRecyclerView.setLayoutManager(manager);
 
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();*/
 
+    }
+
+    private void setUpCalRecyclerView(View root) {
+        //Query query = publicTaskRef.orderBy("m_TaskName", Query.Direction.DESCENDING);
+        Query query = calTaskRef.orderBy("m_Date");
+
+
+        FirestoreRecyclerOptions<Task> tasks = new FirestoreRecyclerOptions.Builder<Task>()
+                .setQuery(query, Task.class)
+                .build();
+
+        calAdapter = new FeedAdapter(tasks);
+
+
+        // refer to recycler view
+        RecyclerView recyclerView = root.findViewById(R.id.calendar_feed_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(calAdapter);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        calAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        calAdapter.stopListening();
     }
 
 }
