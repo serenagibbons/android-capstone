@@ -1,6 +1,7 @@
 package com.example.androidcapstone.PreLogin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -8,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.androidcapstone.MainActivity;
 import com.example.androidcapstone.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,23 +42,45 @@ import java.util.regex.Pattern;
 
 public class AccountRegister extends Fragment {
 
+    FirebaseAuth mFirebaseAuth;
+    GoogleSignInClient mGoogleSignInClient;
+    SignInButton googleLogin;
+    private static final int RC_SIGN_IN = 101;
+
     //Used as a controller to send data between fragments via LoginScreenActivity
     private OnRegisterFragmentListener mCallback;
 
     Button btnRegister;
     EditText email, password, fname, lname;
-    ImageView facebookSignUp, googleSignUp;
+    ImageView facebookSignUp;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account_register,container,false);
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        googleLogin = view.findViewById(R.id.loginGoogle);
+        //Google Signin
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
         btnRegister = view.findViewById(R.id.btnRegister);
         email = view.findViewById(R.id.editEmail);
         password = view.findViewById(R.id.editPassword);
         fname = view.findViewById(R.id.editFirstName);
         lname = view.findViewById(R.id.editlastName);
         facebookSignUp = view.findViewById(R.id.signUpFB);
-        googleSignUp = view.findViewById(R.id.signUpGoogle);
+        googleLogin = view.findViewById(R.id.signUpGoogle);
+
+
+        // Set the dimensions of the sign-in button.
+        SignInButton signInButton = view.findViewById(R.id.signUpGoogle);
+        signInButton.setSize(SignInButton.SIZE_STANDARD);
+
+        mGoogleSignInClient = GoogleSignIn.getClient(getContext() , gso);
 
         facebookSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +89,7 @@ public class AccountRegister extends Fragment {
             }
         });
 
-        googleSignUp.setOnClickListener(new View.OnClickListener() {
+        googleLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 googleSignInClick(view);
@@ -64,8 +102,8 @@ public class AccountRegister extends Fragment {
                 //Check for not empty
                 //Check for user account - Not implemented yet
                 //Check for password - Not implemented yet
-                String emailText = email.getText().toString().trim();
-                String passText = password.getText().toString().trim();
+                final String emailText = email.getText().toString().trim();
+                final String passText = password.getText().toString().trim();
                 String fText = fname.getText().toString().trim();
                 String lText = lname.getText().toString().trim();
                 //If any fields are empty, display error
@@ -108,11 +146,25 @@ public class AccountRegister extends Fragment {
                     }
 
                     if(errors == false){
-                        Toast.makeText(getActivity(), "Register Successful", Toast.LENGTH_SHORT).show();
-                        mCallback.messageFromRegister("KEY_EMAIL", emailText);
-                        mCallback.messageFromRegister("KEY_PASSWORD", passText);
-                        mCallback.switchTab();
+                        mFirebaseAuth.createUserWithEmailAndPassword(emailText,passText).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                 if(!task.isSuccessful()){
+                                     Toast.makeText(getActivity(), "Email already exists", Toast.LENGTH_SHORT).show();
 
+                                 }
+                                 else{
+                                     Toast.makeText(getActivity(), "Registration Successful", Toast.LENGTH_SHORT).show();
+                                     mCallback.messageFromRegister("KEY_EMAIL", emailText);
+                                     mCallback.messageFromRegister("KEY_PASSWORD", passText);
+                                     mCallback.switchTab();
+                                 }
+                            }
+                        });
+
+                    }
+                    else{
+                        Toast.makeText(getActivity(), "Check Input", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -120,6 +172,46 @@ public class AccountRegister extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                // ...
+            }
+        }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mFirebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                            ProceedToMainMenu();
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(getContext(), "Google Sign-In Failed", Toast.LENGTH_SHORT).show();
+                        }
+
+                        // ...
+                    }
+                });
     }
 
     public interface OnRegisterFragmentListener {
@@ -202,6 +294,16 @@ public class AccountRegister extends Fragment {
         Toast.makeText(getActivity(), "Facebook Signup", Toast.LENGTH_SHORT).show();
     }
     public void googleSignInClick(View view) {
-        Toast.makeText(getActivity(), "Google Signup", Toast.LENGTH_SHORT).show();
+        signIn();
+    }
+
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void ProceedToMainMenu(){
+        Intent i = new Intent(getActivity(), MainActivity.class);
+        startActivity(i);
     }
 }

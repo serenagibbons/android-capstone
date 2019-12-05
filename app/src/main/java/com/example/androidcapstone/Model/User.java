@@ -5,7 +5,8 @@ public class User {
     private String m_UserID;
     private String m_Avatar;
     private String m_Email;
-    private String m_Username;
+    private String m_FirstName;
+    private String m_LastName;
 
     public String getM_Email() {
         return m_Email;
@@ -13,14 +14,6 @@ public class User {
 
     public void setM_Email(String m_Email) {
         this.m_Email = m_Email;
-    }
-
-    public String getM_Username() {
-        return m_Username;
-    }
-
-    public void setM_Username(String m_Username) {
-        this.m_Username = m_Username;
     }
 
     public String getM_UserID() {

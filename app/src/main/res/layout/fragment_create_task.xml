@@ -144,25 +144,7 @@
         android:stepSize="1" />
 
     <EditText
-        android:id="@+id/editTextTempStarDisplay"
-        android:layout_width="79dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="288dp"
-        android:layout_marginLeft="288dp"
-        android:layout_marginTop="221dp"
-        android:layout_marginEnd="43dp"
-        android:layout_marginRight="43dp"
-        android:ems="10"
-        android:text="1" />
-
-    <EditText
-        android:id="@+id/editText7"
+        android:id="@+id/editTextAssigned"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -173,8 +155,7 @@
         android:layout_marginEnd="65dp"
         android:layout_marginRight="65dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/contacts" />
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/editTextTaskName"

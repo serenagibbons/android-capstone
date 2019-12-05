@@ -5,11 +5,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.androidcapstone.Model.Task;
+import com.example.androidcapstone.ui.public_feed.PublicFeedFragment;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +23,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PersonalFeedVi
 
     private List<Task> task = new ArrayList<>();
     private Activity activity;
+
     public FeedAdapter(List<Task> list, Activity activity) {
         task.addAll(list);
         this.activity = activity;
@@ -34,8 +40,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PersonalFeedVi
         Task data = task.get(i);
 
         holder.taskName.setText(data.getM_TaskName());
-        holder.deadline.setText(data.getM_DueDate());
-        holder.posted.setText(data.getM_PostedTime());
+        //holder.deadline.setText(data.getM_DueDate());
+        //holder.posted.setText(data.getM_PostedTime());
         holder.desc.setText(data.getM_TaskDescription());
     }
 
@@ -63,4 +69,5 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PersonalFeedVi
 
         }
     }
+
 }

@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.example.androidcapstone.MainActivity;
@@ -25,17 +26,23 @@ import com.example.androidcapstone.MapsActivity;
 import com.example.androidcapstone.Model.Task;
 import com.example.androidcapstone.R;
 import com.example.androidcapstone.ui.create_task.CreateTaskViewModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class CreateTaskFragment extends Fragment {
     FirebaseFirestore db;
     private CreateTaskViewModel createTaskViewModel;
     DatePickerDialog picker;
 
-    EditText taskName, taskDescription, completedBy, tempStarDisplay, editTextMapLocation;
+    EditText taskName, taskDescription, completedBy, assignedTo, editTextMapLocation;
     Button createTask, pickLocation;
     ToggleButton privacyBtn;
     RatingBar rBar;
@@ -47,7 +54,7 @@ public class CreateTaskFragment extends Fragment {
         taskName = root.findViewById(R.id.editTextTaskName);
         taskDescription = root.findViewById(R.id.editTextDescription);
         completedBy = root.findViewById(R.id.editTextCompletedByDate);
-        tempStarDisplay = root.findViewById(R.id.editTextTempStarDisplay);
+        assignedTo = root.findViewById(R.id.editTextAssigned);
         editTextMapLocation = root.findViewById(R.id.editTextMapLocation);
         pickLocation = root.findViewById(R.id.btnLocationPicker);
         privacyBtn = root.findViewById(R.id.toggleButtonPrivacy);
@@ -95,28 +102,81 @@ public class CreateTaskFragment extends Fragment {
                 String m_TaskName = taskName.getText().toString().trim(); //Req
                 String m_Description = taskDescription.getText().toString().trim(); //Req
                 String m_CompletedBy = completedBy.getText().toString().trim(); //Req
+                String m_AssignedTo = assignedTo.getText().toString().trim(); //Req
                 String m_Priority = checkRating(); //Req
-                String m_MapLocation = taskName.getText().toString().trim(); //Optional
+                String m_MapLocation = editTextMapLocation.getText().toString().trim(); //Optional
+
+                Date date1 = new Date();
+                try {
+                    date1=new SimpleDateFormat("MM/dd/yyyy").parse(m_CompletedBy);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
                 //Assign To
                 String m_Privacy = (privacyBtn.isChecked() ? "Public" : "Private");
                 //Check all required are filled
                 //Firestore instance
                 db = FirebaseFirestore.getInstance();
-                CollectionReference dbProducts = db.collection("Task");
-//                Task task = new Task(
-//                        m_TaskName,
-//                        m_Description,
-//                        m_CompletedBy,
-//                        m_Priority,
-//                        m_MapLocation,
-//                        m_Privacy
-//                );
 
+                if(!validateInputs(m_TaskName, m_Description, m_CompletedBy, m_AssignedTo, m_MapLocation)) {
+                    CollectionReference dbProducts = db.collection("Task");
+                    Task task = new Task( //String m_Creator, String m_AssignedTo, String m_TaskName, String m_TaskDescription,
+                            //String m_Importance, String m_Location, Date m_DueDate, String m_Status, String m_Privacy
+                            "Kevin",//TODO Get user
+                            m_AssignedTo, //TODO Get user contacts
+                            m_TaskName,
+                            m_Description,
+                            m_Priority,
+                            m_MapLocation,
+                            date1,
+                            "Incomplete",
+                            m_Privacy
+                    );
+
+                    dbProducts.add(task).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Toast.makeText(getContext(), "Task Added", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
 
         return root;
     }
+
+    private boolean validateInputs(String m_TaskName, String m_Description, String m_Completed, String m_AssignedTo, String m_MapLocation){
+      boolean missingFields = false;
+        if(m_TaskName.equals("")){
+            missingFields = true;
+            taskName.setError("Empty");
+        }
+        if(m_Description.equals("")){
+            missingFields = true;
+            taskDescription.setError("Empty");
+        }
+        if(m_AssignedTo.equals("")){
+            missingFields = true;
+            assignedTo.setError("Empty");
+        }
+        if(m_MapLocation.equals("")){
+            missingFields = true;
+            editTextMapLocation.setError("Empty");
+        }
+        if(m_Completed.equals("")){
+            missingFields = true;
+            completedBy.setError("Empty");
+        }
+
+        return missingFields;
+    };
 
     private String checkRating(){
         int rating = (int)rBar.getRating();
