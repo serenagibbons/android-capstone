@@ -35,6 +35,7 @@ import com.prolificinteractive.materialcalendarview.spans.DotSpan;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -118,6 +119,7 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
                 Task testTask = new Task();
                 //testTask.setM_CreatedOnDate(date.getDate());
                 test.add(testTask);
+
             }
         }
         // create recycler view adapter and layout manager

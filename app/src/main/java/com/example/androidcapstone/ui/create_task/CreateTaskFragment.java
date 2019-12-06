@@ -78,7 +78,7 @@ public class CreateTaskFragment extends Fragment {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                completedBy.setText(monthOfYear + "/" + (dayOfMonth + 1) + "/" + year);
+                                completedBy.setText(monthOfYear+1 + "/" + (dayOfMonth + 1) + "/" + year);
                             }
                         }, year, month, day);
                 picker.show();
