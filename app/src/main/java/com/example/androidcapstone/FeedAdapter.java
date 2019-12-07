@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidcapstone.Model.Task;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.text.SimpleDateFormat;
 
@@ -27,6 +28,7 @@ public class FeedAdapter extends FirestoreRecyclerAdapter<Task, FeedAdapter.Feed
      * {@link FirestoreRecyclerOptions} for configuration options.
      */
 
+    private OnItemClickListener listener;
     private Context mContext;
 
     public FeedAdapter(Context context, FirestoreRecyclerOptions<Task> options) {
@@ -52,20 +54,6 @@ public class FeedAdapter extends FirestoreRecyclerAdapter<Task, FeedAdapter.Feed
         //holder.posted.setText(task.getM_PostedTime());
         holder.desc.setText(task.getM_TaskDescription());
 
-
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, DetailedTaskActivity.class);
-                intent.putExtra("taskit title", task.getM_TaskName());
-                intent.putExtra("taskit creator", task.getM_Creator());
-                intent.putExtra("taskit priority", task.getM_Importance());
-                intent.putExtra("taskit deadline", dateString);
-                intent.putExtra("taskit description", task.getM_TaskDescription());
-                //intent.putExtra("taskit posted date", task.getM_PostedTime());
-                mContext.startActivity(intent);
-            }
-        });
     }
 
     @NonNull
@@ -94,6 +82,26 @@ public class FeedAdapter extends FirestoreRecyclerAdapter<Task, FeedAdapter.Feed
             deadline = itemView.findViewById(R.id.deadline_time);
             //posted = itemView.findViewById(R.id.posted_date);
             desc = itemView.findViewById(R.id.task_description);
+
+            // set onClickListener for recycler view items
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(DocumentSnapshot documentSnapshot, int position);
+
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 }
