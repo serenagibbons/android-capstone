@@ -76,6 +76,7 @@ public class PersonalFeedFragment extends Fragment {
                 intent.putExtra("taskit title", task.getM_TaskName());
                 intent.putExtra("taskit creator", task.getM_Creator());
                 intent.putExtra("taskit priority", task.getM_Importance());
+                intent.putExtra("taskit posted", task.getM_CreatedOnDate());
                 intent.putExtra("taskit deadline", dateString);
                 intent.putExtra("taskit description", task.getM_TaskDescription());
                 intent.putExtra("taskit privacy", task.getM_Privacy());

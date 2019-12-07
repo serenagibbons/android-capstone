@@ -10,9 +10,11 @@
         android:layout_width="138dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="131dp"
+        android:layout_marginLeft="131dp"
         android:layout_marginTop="389dp"
         android:text="ToggleButton"
         android:textOff="Private"
@@ -140,7 +142,6 @@
         android:layout_marginLeft="80dp"
         android:layout_marginTop="220dp"
         android:numStars="3"
-        android:rating="1"
         android:stepSize="1" />
 
     <EditText
@@ -189,9 +190,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginTop="336dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:text="Map" />
 
     <EditText

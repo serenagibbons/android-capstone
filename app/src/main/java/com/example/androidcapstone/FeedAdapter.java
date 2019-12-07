@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,23 +38,40 @@ public class FeedAdapter extends FirestoreRecyclerAdapter<Task, FeedAdapter.Feed
 
     }
 
-    String dateString;
+    String dateString, createdOnString;
+    int priorityNum;
 
     @Override
     protected void onBindViewHolder(FeedHolder holder, int i, final Task task) {
         holder.taskName.setText(task.getM_TaskName());
-        //Timestamp t = task.getM_DueDate();
 
         SimpleDateFormat sdfr = new SimpleDateFormat("MM/dd/yyyy");
         try{
-            dateString = sdfr.format( task.getM_DueDate() );
+            dateString = sdfr.format(task.getM_DueDate());
+            createdOnString = sdfr.format(task.getM_CreatedOnDate());
         }catch (Exception ex ){
             ex.printStackTrace();
         }
+
+        priorityNum = getPriorityNum(task.getM_Importance());
         holder.deadline.setText(dateString);
-        //holder.posted.setText(task.getM_PostedTime());
+        holder.priority.setRating(priorityNum);
+        holder.posted.setText(createdOnString);
         holder.desc.setText(task.getM_TaskDescription());
 
+    }
+
+    private int getPriorityNum(String rating) {
+        switch (rating) {
+            case "High":
+                return 3;
+            case "Medium":
+                return 2;
+            case "Low":
+                return 1;
+            default:
+                return 0;
+        }
     }
 
     @NonNull
@@ -70,7 +88,8 @@ public class FeedAdapter extends FirestoreRecyclerAdapter<Task, FeedAdapter.Feed
         //ImageView image;
         TextView taskName;
         TextView deadline;
-        //TextView posted;
+        TextView posted;
+        RatingBar priority;
         TextView desc;
 
         public FeedHolder(@NonNull View itemView) {
@@ -80,7 +99,8 @@ public class FeedAdapter extends FirestoreRecyclerAdapter<Task, FeedAdapter.Feed
             //image = itemView.findViewById(R.id.icon);
             taskName = itemView.findViewById(R.id.name_task);
             deadline = itemView.findViewById(R.id.deadline_time);
-            //posted = itemView.findViewById(R.id.posted_date);
+            posted = itemView.findViewById(R.id.posted_date);
+            priority = itemView.findViewById(R.id.taskRating);
             desc = itemView.findViewById(R.id.task_description);
 
             // set onClickListener for recycler view items
