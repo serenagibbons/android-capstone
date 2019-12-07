@@ -64,17 +64,21 @@ public class PublicFeedFragment extends Fragment {
         adapter.setOnItemClickListener(new FeedAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                // store document snapshot as task object
                 Task task = documentSnapshot.toObject(Task.class);
 
                 String dateString = "";
                 SimpleDateFormat sdfr = new SimpleDateFormat("MM/dd/yyyy");
                 try{
                     dateString = sdfr.format( task.getM_DueDate() );
-                }catch (Exception ex ){
+                }catch (Exception ex){
                     ex.printStackTrace();
                 }
+
+                // save document snapshot id as String
                 String id = documentSnapshot.getId();
-                //String id = documentSnapshot.getReference().getPath();
+
+                // create new intent to DetailedTaskActivity
                 Intent intent = new Intent(getContext(), DetailedTaskActivity.class);
                 intent.putExtra("taskit title", task.getM_TaskName());
                 intent.putExtra("taskit creator", task.getM_Creator());
