@@ -7,6 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
@@ -14,7 +20,9 @@ public class DetailedTaskActivity extends AppCompatActivity {
 
     TextView title, creator, priority, deadline, postDate, description;
     Button acceptBtn;
-    boolean isPersonalTask;
+    final static String KEY_DESCRIPTION = "m_Privacy";
+
+    private CollectionReference TaskRef = FirebaseFirestore.getInstance().collection("Task");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,32 +37,20 @@ public class DetailedTaskActivity extends AppCompatActivity {
         description = findViewById(R.id.description_taskit);
 
         acceptBtn = findViewById(R.id.button_accept);
-        acceptBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (acceptBtn.getText().equals("Accept Task")) {
-                    isPersonalTask = true;
-                    acceptBtn.setText(getResources().getString(R.string.leave_task));
-                }
-                else {
-                    // else "leave task"
-                    isPersonalTask = false;
-                    acceptBtn.setText(getResources().getString(R.string.accept_task));
-                }
-
-            }
-        });
 
         Intent i = getIntent();
         Bundle b = i.getExtras();
         if (b != null) {
 
-
+            // get extras from the intent
             String createdByString = String.format(getResources().getString(R.string.set_creator), i.getStringExtra("taskit creator"));
             String deadlineString = String.format(getResources().getString(R.string.set_deadline), i.getStringExtra("taskit deadline"));
             String priorityString = String.format(getResources().getString(R.string.set_priority), i.getStringExtra("taskit priority"));
             String descriptionString = String.format(getResources().getString(R.string.set_description), i.getStringExtra("taskit description"));
+            String privacy = i.getStringExtra("taskit privacy");
+            final String id = i.getStringExtra("Document id");
 
+            // set TextViews of the activity
             title.setText(i.getStringExtra("taskit title"));
             creator.setText(createdByString);
             priority.setText(priorityString);
@@ -62,7 +58,35 @@ public class DetailedTaskActivity extends AppCompatActivity {
             postDate.setText(i.getStringExtra("taskit posted date"));
             description.setText(descriptionString);
 
+            // set button text
+            if (privacy != null) {
+                if (privacy.equals("Private")) {
+                    acceptBtn.setText(getResources().getString(R.string.leave_task));
+                } else {
+                    acceptBtn.setText(getResources().getString(R.string.accept_task));
+                }
+            }
 
+
+            acceptBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (id != null) {
+                        if (acceptBtn.getText().equals("Accept Task")) { // accept task
+                            // set button to "leave task" once clicked
+                            acceptBtn.setText(getResources().getString(R.string.leave_task));
+                            // update privacy to Public
+                            TaskRef.document(id).update(KEY_DESCRIPTION, "Private");
+                        } else {  // leave task
+                            // set button to "accept task" once clicked
+                            acceptBtn.setText(getResources().getString(R.string.accept_task));
+                            // update privacy to Private
+                            TaskRef.document(id).update(KEY_DESCRIPTION, "Public");
+                        }
+                    }
+
+                }
+            });
         }
 
     }
