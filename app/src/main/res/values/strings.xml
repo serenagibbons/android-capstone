@@ -25,5 +25,6 @@
     <string name="set_deadline">Deadline: %s</string>
     <string name="set_priority">Priority: %s</string>
     <string name="set_description">Description: %s</string>
-
+    <string name="facebook_app_id">2551450934892886</string>
+    <string name="fb_login_protocol_scheme">fb2551450934892886</string>
 </resources>

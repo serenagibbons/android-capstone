@@ -20,17 +20,25 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
+    <com.facebook.login.widget.LoginButton
         android:id="@+id/loginFB"
         android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_marginBottom="116dp"
-        android:onClick="facebookSignInClick"
-        android:src="@drawable/loginfacebook"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_pic"
+        android:layout_width="303dp"
+        android:layout_height="228dp"
+        app:layout_constraintBottom_toTopOf="@+id/loginGoogle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.654" />
 
     <EditText
         android:id="@+id/editLoginPassword"
