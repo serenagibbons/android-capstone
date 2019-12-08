@@ -100,6 +100,7 @@ public class AccountLogin extends Fragment {
         //Facebook
         callbackManager = CallbackManager.Factory.create();
         fbLoginButton = view.findViewById(R.id.loginFB);
+        fbLoginButton.setFragment(this);
         fbLoginButton.setReadPermissions("email", "public_profile");
         circleImageView = view.findViewById(R.id.profile_pic);
         checkLoginStatus();

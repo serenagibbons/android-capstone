@@ -59,6 +59,7 @@ public class FeedAdapter extends FirestoreRecyclerAdapter<Task, FeedAdapter.Feed
         holder.priority.setRating(priorityNum);
         holder.posted.setText(createdOnString);
         holder.desc.setText(task.getM_TaskDescription());
+
     }
 
     private int getPriorityNum(String rating) {
