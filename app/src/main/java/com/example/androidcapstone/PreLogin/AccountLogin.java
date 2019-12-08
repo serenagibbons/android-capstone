@@ -18,8 +18,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.androidcapstone.MainActivity;
 import com.example.androidcapstone.R;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -31,12 +43,21 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountLogin extends Fragment {
 
@@ -47,11 +68,14 @@ public class AccountLogin extends Fragment {
     GoogleSignInClient mGoogleSignInClient;
     SignInButton googleLogin;
 
+    LoginButton fbLoginButton;
+    CallbackManager callbackManager;
+    CircleImageView circleImageView;
+
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     Button btnLogin;
     EditText loginEmail, loginPassword;
-    ImageView facebookLogin;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,20 +85,31 @@ public class AccountLogin extends Fragment {
         googleLogin = view.findViewById(R.id.loginGoogle);
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+// Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
-        // Set the dimensions of the sign-in button.
+        // Set the dimensions of the sign-in button. Google
         SignInButton signInButton = view.findViewById(R.id.loginGoogle);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
-
         mGoogleSignInClient = GoogleSignIn.getClient(getContext() , gso);
+
+        //Facebook
+        callbackManager = CallbackManager.Factory.create();
+        fbLoginButton = view.findViewById(R.id.loginFB);
+        fbLoginButton.setReadPermissions("email", "public_profile");
+        circleImageView = view.findViewById(R.id.profile_pic);
+        checkLoginStatus();
+        // If you are using in a fragment, call loginButton.setFragment(this);
+
+
+
 
         btnLogin = view.findViewById(R.id.btnLogin);
         loginEmail = view.findViewById(R.id.editLoginEmail);
         loginPassword = view.findViewById(R.id.editLoginPassword);
-        facebookLogin = view.findViewById(R.id.loginFB);
         googleLogin = view.findViewById(R.id.loginGoogle);
 
 
@@ -85,19 +120,31 @@ public class AccountLogin extends Fragment {
                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 if(mFirebaseUser != null){
                     Toast.makeText(getActivity(), "Logged In", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(getActivity(), MainActivity.class);
-                    startActivity(i);
+                    ProceedToMainMenu();
                 }
             }
         };
 
-        //Facebook Login is clicked
-        facebookLogin.setOnClickListener(new View.OnClickListener() {
+        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
-            public void onClick(View view) {
-                facebookSignInClick(view);
+            public void onSuccess(LoginResult loginResult) {
+                Toast.makeText(getContext(), "Facebook Sign-In Success", Toast.LENGTH_SHORT).show();
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d(TAG, "facebook:onCancel");
+                // ...
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.d(TAG, "facebook:onError", error);
+                // ...
             }
         });
+
         //Google Login is clicked
         googleLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,10 +204,12 @@ public class AccountLogin extends Fragment {
         return view;
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             try {
@@ -176,6 +225,47 @@ public class AccountLogin extends Fragment {
                 // ...
             }
         }
+    }
+
+    AccessTokenTracker tokenTracker = new AccessTokenTracker() {
+        @Override
+        protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+            if(currentAccessToken ==null){ //Not logged in
+                Toast.makeText(getContext(), "Logged Out", Toast.LENGTH_SHORT).show();
+                circleImageView.setImageResource(0);
+            }
+            else{
+                loadUserProfile(currentAccessToken);
+            }
+        }
+    };
+
+    private void loadUserProfile(AccessToken newAccessToken){
+        GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                try{
+                    String first_name = object.getString("first_name");
+                    String last_name = object.getString("last_name");
+                    String email = object.getString("email");
+                    String id = object.getString("id");
+                    String image_url = "https://graph.facebook.com/"+id+"/picture?type=normal";
+
+                    RequestOptions requestOptions = new RequestOptions();
+                    requestOptions.dontAnimate();
+
+                    Glide.with(getActivity()).load(image_url).into(circleImageView);
+
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "first_name,last_name,email,id");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -248,9 +338,31 @@ public class AccountLogin extends Fragment {
         }
     }
 
-    public void facebookSignInClick(View view) {
-        Toast.makeText(getActivity(), "Facebook Login", Toast.LENGTH_SHORT).show();
+    private void handleFacebookAccessToken(AccessToken token) {
+        Log.d(TAG, "handleFacebookAccessToken:" + token);
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mFirebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(getActivity(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+
+                        // ...
+                    }
+                });
     }
+
+
     public void googleSignInClick(View view) {
         signIn();
 
@@ -260,6 +372,23 @@ public class AccountLogin extends Fragment {
     public void onStart() {
         super.onStart();
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+        FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
+        if(currentUser != null){
+            updateUI(currentUser);
+        }
+    }
+
+    private void updateUI(FirebaseUser currentUser) {
+        Toast.makeText(getContext(), "Logged In", Toast.LENGTH_SHORT).show();
+        ProceedToMainMenu();
+    }
+
+    private void checkLoginStatus()
+    {
+        if(AccessToken.getCurrentAccessToken()!=null)
+        {
+            loadUserProfile(AccessToken.getCurrentAccessToken());
+        }
     }
 
     private void ProceedToMainMenu(){
