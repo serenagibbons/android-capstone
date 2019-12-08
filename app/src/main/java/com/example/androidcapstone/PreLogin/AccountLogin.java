@@ -71,7 +71,6 @@ public class AccountLogin extends Fragment {
 
     LoginButton fbLoginButton;
     CallbackManager callbackManager;
-    CircleImageView circleImageView;
 
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
@@ -102,7 +101,6 @@ public class AccountLogin extends Fragment {
         fbLoginButton = view.findViewById(R.id.loginFB);
         fbLoginButton.setFragment(this);
         fbLoginButton.setReadPermissions("email", "public_profile");
-        circleImageView = view.findViewById(R.id.profile_pic);
         checkLoginStatus();
         // If you are using in a fragment, call loginButton.setFragment(this);
 
@@ -237,10 +235,10 @@ public class AccountLogin extends Fragment {
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
             if(currentAccessToken ==null){ //Not logged in
                 Toast.makeText(getContext(), "Logged Out", Toast.LENGTH_SHORT).show();
-                circleImageView.setImageResource(0);
             }
             else{
                 loadUserProfile(currentAccessToken);
+
             }
         }
     };
@@ -258,8 +256,7 @@ public class AccountLogin extends Fragment {
 
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();
-
-                    Glide.with(getActivity()).load(image_url).into(circleImageView);
+                    ProceedToMainMenu();
 
                 }catch(JSONException e){
                     e.printStackTrace();
@@ -393,6 +390,7 @@ public class AccountLogin extends Fragment {
         if(AccessToken.getCurrentAccessToken()!=null)
         {
             loadUserProfile(AccessToken.getCurrentAccessToken());
+
         }
     }
 

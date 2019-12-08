@@ -7,6 +7,7 @@ import java.util.Date;
 public class Task {
     //Variables - 'F' means to follow this format
     private String m_Creator; //Email of Creator
+    private Boolean m_Accepted; //Email of Creator
     private String m_AssignedTo; //Email of people assigned to, can have multiple
     private String m_TaskName; //Name of task
     private String m_TaskDescription; //Description of task
@@ -35,6 +36,10 @@ public class Task {
         this.m_Location = m_Location;
         this.m_Privacy = m_Privacy;
     }
+
+
+    public Boolean getM_Accepted() { return m_Accepted; }
+    public void setM_Accepted(Boolean m_Accepted) { this.m_Accepted = m_Accepted; }
 
     public String getM_Location() {
         return m_Location;
@@ -98,14 +103,6 @@ public class Task {
     public void setM_DueDate(Date m_DueDate) {
         this.m_DueDate = m_DueDate;
     }
-
-    //public String getM_Frequency() {
-    //     return m_Frequency;
-//    }
-//
-//    public void setM_Frequency(String m_Frequency) {
-//        this.m_Frequency = m_Frequency;
-//    }
 
     public Date getM_CreatedOnDate() {
         return m_CreatedOnDate;

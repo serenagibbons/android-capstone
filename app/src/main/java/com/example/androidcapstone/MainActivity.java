@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import com.example.androidcapstone.Model.Task;
 import com.example.androidcapstone.PreLogin.LoginScreenActivity;
+import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         case R.id.Logout:
             //add the function to perform here
             FirebaseAuth.getInstance().signOut();
+            LoginManager.getInstance().logOut();
             Intent i = new Intent(MainActivity.this, LoginScreenActivity.class);
             startActivity(i);
             return(true);
