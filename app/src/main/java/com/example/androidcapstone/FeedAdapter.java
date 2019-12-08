@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,16 +59,15 @@ public class FeedAdapter extends FirestoreRecyclerAdapter<Task, FeedAdapter.Feed
         holder.priority.setRating(priorityNum);
         holder.posted.setText(createdOnString);
         holder.desc.setText(task.getM_TaskDescription());
-
     }
 
     private int getPriorityNum(String rating) {
         switch (rating) {
-            case "High":
+            case "3":
                 return 3;
-            case "Medium":
+            case "2":
                 return 2;
-            case "Low":
+            case "1":
                 return 1;
             default:
                 return 0;
