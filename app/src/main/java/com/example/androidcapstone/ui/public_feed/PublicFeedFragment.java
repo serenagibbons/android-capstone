@@ -44,7 +44,7 @@ public class PublicFeedFragment extends Fragment {
     }
 
     private void setUpRecyclerView(View root) {
-        //Query query = publicTaskRef.orderBy("m_TaskName", Query.Direction.DESCENDING);
+        // show only public tasks and order by deadline
         Query query = publicTaskRef.whereEqualTo("m_Privacy", "Public");
 
 
