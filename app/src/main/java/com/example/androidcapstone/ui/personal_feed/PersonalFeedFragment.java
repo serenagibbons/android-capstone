@@ -61,6 +61,7 @@ public class PersonalFeedFragment extends Fragment {
         personalAdapter.setOnItemClickListener(new FeedAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                // store document snapshot as task object
                 Task task = documentSnapshot.toObject(Task.class);
 
                 String dateString = "";
@@ -70,8 +71,10 @@ public class PersonalFeedFragment extends Fragment {
                 }catch (Exception ex ){
                     ex.printStackTrace();
                 }
+                // save document snapshot id as String
                 String id = documentSnapshot.getId();
-                //String id = documentSnapshot.getReference().getPath();
+
+                // create new intent to DetailedTaskActivity
                 Intent intent = new Intent(getContext(), DetailedTaskActivity.class);
                 intent.putExtra("taskit title", task.getM_TaskName());
                 intent.putExtra("taskit creator", task.getM_Creator());
