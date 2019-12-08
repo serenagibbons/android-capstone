@@ -26,4 +26,6 @@
     <string name="set_description">Description: %s</string>
     <string name="sort_by">Sort by:</string>
 
+    <string name="facebook_app_id">2551450934892886</string>
+    <string name="fb_login_protocol_scheme">fb2551450934892886</string>
 </resources>
