@@ -126,6 +126,7 @@ public class CreateTaskFragment extends Fragment {
                     Task task = new Task( //String m_Creator, String m_AssignedTo, String m_TaskName, String m_TaskDescription,
                             //String m_Importance, String m_Location, Date m_DueDate, String m_Status, String m_Privacy
                             "Kevin",//TODO Get user
+                            false,
                             m_AssignedTo, //TODO Get user contacts
                             m_TaskName,
                             m_Description,

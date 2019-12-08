@@ -8,31 +8,30 @@
         android:id="@+id/linearLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:gravity="center_vertical|end"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.SearchView
-            android:layout_width="310dp"
-            android:layout_height="wrap_content"
-            />
+            android:layout_width="276dp"
+            android:layout_height="wrap_content" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/sort_by" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Spinner
-            android:id="@+id/personal_spinner"
-            android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:text="@string/sort_by"
+                android:textSize="16sp" />
 
+            <Spinner
+                android:id="@+id/personal_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

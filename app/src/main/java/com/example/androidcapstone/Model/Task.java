@@ -23,10 +23,11 @@ public class Task {
     {}
 
     // parameterized constructor
-    public Task(String m_Creator, String m_AssignedTo, String m_TaskName, String m_TaskDescription,
+    public Task(String m_Creator, Boolean m_Accepted, String m_AssignedTo, String m_TaskName, String m_TaskDescription,
                 String m_Importance, String m_Location, Date m_DueDate, String m_Status, String m_Privacy)
     {
         this.m_Creator = m_Creator;
+        this.m_Accepted = m_Accepted;
         this.m_AssignedTo = m_AssignedTo;
         this.m_TaskName = m_TaskName;
         this.m_TaskDescription = m_TaskDescription;
