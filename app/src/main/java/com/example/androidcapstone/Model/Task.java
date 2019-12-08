@@ -10,7 +10,7 @@ public class Task {
     private String m_AssignedTo; //Email of people assigned to, can have multiple
     private String m_TaskName; //Name of task
     private String m_TaskDescription; //Description of task
-    private String m_Importance; //[F - Low, Medium, High]
+    private String m_Importance; //[F - 1, 2, 3]
     private @ServerTimestamp Date m_DueDate; //The day to be completed on [F - Mon, Tue, Wed, Thur, Fri, Sat, Sun]
     private @ServerTimestamp Date m_CreatedOnDate; //[F - mm/dd/yy] AutoImplemented if null
     private String m_Status; //[F Complete || Incomplete]

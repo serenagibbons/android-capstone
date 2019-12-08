@@ -105,11 +105,11 @@ public class DetailedTaskActivity extends AppCompatActivity {
     // get integer value of the priority
     private int getPriorityInt(String rating) {
         switch (rating) {
-            case "High":
+            case "3":
                 return 3;
-            case "Medium":
+            case "2":
                 return 2;
-            case "Low":
+            case "1":
                 return 1;
             default:
                 return 0;

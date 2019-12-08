@@ -63,11 +63,11 @@ public class FeedAdapter extends FirestoreRecyclerAdapter<Task, FeedAdapter.Feed
 
     private int getPriorityNum(String rating) {
         switch (rating) {
-            case "High":
+            case "3":
                 return 3;
-            case "Medium":
+            case "2":
                 return 2;
-            case "Low":
+            case "1":
                 return 1;
             default:
                 return 0;

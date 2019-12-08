@@ -184,11 +184,11 @@ public class CreateTaskFragment extends Fragment {
         int rating = (int)rBar.getRating();
         switch (rating){
             case 1:
-                return "Low";
+                return "1";
             case 2:
-                return "Medium";
+                return "2";
             case 3:
-                return "High";
+                return "3";
         }
         return "Empty";
     }
