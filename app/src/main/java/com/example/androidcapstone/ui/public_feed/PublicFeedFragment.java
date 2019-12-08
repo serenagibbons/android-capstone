@@ -44,8 +44,9 @@ public class PublicFeedFragment extends Fragment {
     }
 
     private void setUpRecyclerView(View root) {
-        //Query query = publicTaskRef.orderBy("m_TaskName", Query.Direction.DESCENDING);
-        Query query = publicTaskRef.whereEqualTo("m_Privacy", "Public");
+        // show only public tasks and order by deadline
+        Query query = publicTaskRef.whereEqualTo("m_Privacy", "Public")
+                .orderBy("m_DueDate", Query.Direction.ASCENDING);
 
 
         FirestoreRecyclerOptions<Task> tasks = new FirestoreRecyclerOptions.Builder<Task>()
