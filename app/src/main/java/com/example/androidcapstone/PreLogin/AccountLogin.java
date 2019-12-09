@@ -186,12 +186,16 @@ public class AccountLogin extends Fragment {
                     //Check for existing user
                     //Check for matching password
                     //Log in and switch activity
+                    //temp
+                    Intent i = new Intent(getActivity(), MainActivity.class);
+                    startActivity(i);
                     try {
                         mFirebaseAuth.signInWithEmailAndPassword(emailText, passText).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (!task.isSuccessful()) {
                                     Toast.makeText(getActivity(), "Incorrect username/password", Toast.LENGTH_SHORT).show();
+
                                 } else {
                                     Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
                                     Intent i = new Intent(getActivity(), MainActivity.class);
