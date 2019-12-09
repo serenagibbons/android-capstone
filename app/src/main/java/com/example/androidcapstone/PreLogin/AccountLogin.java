@@ -99,6 +99,7 @@ public class AccountLogin extends Fragment {
         //Facebook
         callbackManager = CallbackManager.Factory.create();
         fbLoginButton = view.findViewById(R.id.loginFB);
+        fbLoginButton.setFragment(this);
         fbLoginButton.setReadPermissions("email", "public_profile");
         circleImageView = view.findViewById(R.id.profile_pic);
         checkLoginStatus();
@@ -131,7 +132,6 @@ public class AccountLogin extends Fragment {
                 Toast.makeText(getContext(), "Facebook Sign-In Success", Toast.LENGTH_SHORT).show();
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
-
             @Override
             public void onCancel() {
                 Log.d(TAG, "facebook:onCancel");
@@ -141,6 +141,8 @@ public class AccountLogin extends Fragment {
             @Override
             public void onError(FacebookException error) {
                 Log.d(TAG, "facebook:onError", error);
+
+                //Toast.makeText(getContext(),"facebook:onError " + error, Toast.LENGTH_SHORT).show();
                 // ...
             }
         });

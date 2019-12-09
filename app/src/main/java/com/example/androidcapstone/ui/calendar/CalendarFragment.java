@@ -78,7 +78,6 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
         //Fill
         calendarView.setOnDateChangedListener(this);
         calendarView.setOnMonthChangedListener(this);
-
         CalendarDay day1 = CalendarDay.today();
         CalendarDay day2 = new CalendarDay(2019,9,2);
         dates = new ArrayList<>();
@@ -101,6 +100,7 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
             }
         });
 
+        calendarView.setSelectedDate(day1);
 
         //displayCurrentMonthsTaskits(calendarView.getCurrentDate());
         //setUpCalRecyclerView(root);
