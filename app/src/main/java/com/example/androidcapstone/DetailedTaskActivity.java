@@ -102,6 +102,20 @@ public class DetailedTaskActivity extends AppCompatActivity {
 
     }
 
+    public void shareButtonClicked(View v)
+    {
+        Intent sendIntent = new Intent();
+        String subject = creator.getText().toString() + " has a Taskit for you!";
+        String body = "Taskit: " + title.getText().toString() + "\nDue: " + deadline.getText().toString() + "\n\nJoin Taskr or log in now to accept!";
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, body);
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, "Share using:");
+        startActivity(shareIntent);
+    }
+
     // get integer value of the priority
     private int getPriorityInt(String rating) {
         switch (rating) {
