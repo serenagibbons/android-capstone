@@ -7,10 +7,11 @@ import java.util.Date;
 public class Task {
     //Variables - 'F' means to follow this format
     private String m_Creator; //Email of Creator
+    private Boolean m_Accepted; //Email of Creator
     private String m_AssignedTo; //Email of people assigned to, can have multiple
     private String m_TaskName; //Name of task
     private String m_TaskDescription; //Description of task
-    private String m_Importance; //[F - Low, Medium, High]
+    private String m_Importance; //[F - 1, 2, 3]
     private @ServerTimestamp Date m_DueDate; //The day to be completed on [F - Mon, Tue, Wed, Thur, Fri, Sat, Sun]
     private @ServerTimestamp Date m_CreatedOnDate; //[F - mm/dd/yy] AutoImplemented if null
     private String m_Status; //[F Complete || Incomplete]
@@ -22,10 +23,11 @@ public class Task {
     {}
 
     // parameterized constructor
-    public Task(String m_Creator, String m_AssignedTo, String m_TaskName, String m_TaskDescription,
+    public Task(String m_Creator, Boolean m_Accepted, String m_AssignedTo, String m_TaskName, String m_TaskDescription,
                 String m_Importance, String m_Location, Date m_DueDate, String m_Status, String m_Privacy)
     {
         this.m_Creator = m_Creator;
+        this.m_Accepted = m_Accepted;
         this.m_AssignedTo = m_AssignedTo;
         this.m_TaskName = m_TaskName;
         this.m_TaskDescription = m_TaskDescription;
@@ -35,6 +37,10 @@ public class Task {
         this.m_Location = m_Location;
         this.m_Privacy = m_Privacy;
     }
+
+
+    public Boolean getM_Accepted() { return m_Accepted; }
+    public void setM_Accepted(Boolean m_Accepted) { this.m_Accepted = m_Accepted; }
 
     public String getM_Location() {
         return m_Location;
@@ -98,14 +104,6 @@ public class Task {
     public void setM_DueDate(Date m_DueDate) {
         this.m_DueDate = m_DueDate;
     }
-
-    //public String getM_Frequency() {
-    //     return m_Frequency;
-//    }
-//
-//    public void setM_Frequency(String m_Frequency) {
-//        this.m_Frequency = m_Frequency;
-//    }
 
     public Date getM_CreatedOnDate() {
         return m_CreatedOnDate;
