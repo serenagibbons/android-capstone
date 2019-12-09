@@ -131,7 +131,6 @@ public class AccountLogin extends Fragment {
                 Toast.makeText(getContext(), "Facebook Sign-In Success", Toast.LENGTH_SHORT).show();
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
-
             @Override
             public void onCancel() {
                 Log.d(TAG, "facebook:onCancel");
@@ -141,6 +140,8 @@ public class AccountLogin extends Fragment {
             @Override
             public void onError(FacebookException error) {
                 Log.d(TAG, "facebook:onError", error);
+
+                //Toast.makeText(getContext(),"facebook:onError " + error, Toast.LENGTH_SHORT).show();
                 // ...
             }
         });

@@ -240,7 +240,7 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
                             Toast.makeText(getActivity(), "Error getting documents." + task.getException(), Toast.LENGTH_SHORT).show();
                         }
                     }
-    });
+                });
     }
 
     @Override
