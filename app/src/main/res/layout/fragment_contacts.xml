@@ -17,7 +17,7 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/personal_spinner"
+            android:id="@+id/buttonAddFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Friends"

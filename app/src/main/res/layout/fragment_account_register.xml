@@ -21,17 +21,16 @@
 
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="260dp"
         style="@style/ButtonStyle"
+        android:layout_width="260dp"
         android:layout_height="51dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/layout_buttoncurve"
         android:gravity="center"
         android:text="Register"
-        app:layout_constraintBottom_toTopOf="@+id/txtOrCreate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="537dp" />
 
     <EditText
         android:id="@+id/editEmail"
@@ -93,36 +92,6 @@
         android:inputType="textPassword"
         android:textSize="14dp"
         app:layout_constraintBottom_toTopOf="@+id/editFirstName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/txtOrCreate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Or"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/signUpGoogle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/signUpGoogle"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/signUpFB"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/signUpFB"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="28dp"
-        android:src="@drawable/loginfacebook"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />

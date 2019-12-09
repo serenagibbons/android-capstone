@@ -44,8 +44,7 @@ import java.util.regex.Pattern;
 public class AccountRegister extends Fragment {
 
     FirebaseAuth mFirebaseAuth;
-    GoogleSignInClient mGoogleSignInClient;
-    SignInButton googleLogin;
+
     private static final int RC_SIGN_IN = 101;
 
     //Used as a controller to send data between fragments via LoginScreenActivity
@@ -53,50 +52,18 @@ public class AccountRegister extends Fragment {
 
     Button btnRegister;
     EditText email, password, fname, lname;
-    ImageView facebookSignUp;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account_register,container,false);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
-        googleLogin = view.findViewById(R.id.loginGoogle);
-        //Google Signin
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
 
         btnRegister = view.findViewById(R.id.btnRegister);
         email = view.findViewById(R.id.editEmail);
         password = view.findViewById(R.id.editPassword);
         fname = view.findViewById(R.id.editFirstName);
         lname = view.findViewById(R.id.editlastName);
-        facebookSignUp = view.findViewById(R.id.signUpFB);
-        googleLogin = view.findViewById(R.id.signUpGoogle);
-
-
-        // Set the dimensions of the sign-in button.
-        SignInButton signInButton = view.findViewById(R.id.signUpGoogle);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
-
-        mGoogleSignInClient = GoogleSignIn.getClient(getContext() , gso);
-
-        facebookSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                facebookSignInClick(view);
-            }
-        });
-
-        googleLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                googleSignInClick(view);
-            }
-        });
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,45 +143,7 @@ public class AccountRegister extends Fragment {
         return view;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                // ...
-            }
-        }
-    }
-
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mFirebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                            ProceedToMainMenu();
-
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(getContext(), "Google Sign-In Failed", Toast.LENGTH_SHORT).show();
-                        }
-
-                        // ...
-                    }
-                });
-    }
 
     public interface OnRegisterFragmentListener {
         void messageFromRegister(String type, String msg);
@@ -290,18 +219,6 @@ public class AccountRegister extends Fragment {
         }else {
             return false;
         }
-    }
-
-    public void facebookSignInClick(View view) {
-        Toast.makeText(getActivity(), "Facebook Signup", Toast.LENGTH_SHORT).show();
-    }
-    public void googleSignInClick(View view) {
-        signIn();
-    }
-
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void ProceedToMainMenu(){

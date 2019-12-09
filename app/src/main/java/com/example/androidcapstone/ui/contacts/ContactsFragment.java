@@ -1,5 +1,6 @@
 package com.example.androidcapstone.ui.contacts;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.androidcapstone.ContactAdapter;
 import com.example.androidcapstone.FeedAdapter;
@@ -27,13 +29,13 @@ import java.util.List;
 public class ContactsFragment extends Fragment {
 
     private ContactsViewModel mViewModel;
-
+    Button addFriend;
     public static ContactsFragment newInstance() {
         return new ContactsFragment();
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
         //return inflater.inflate(R.layout.fragment_contacts, container, false);
@@ -41,14 +43,20 @@ public class ContactsFragment extends Fragment {
         mViewModel =
                 ViewModelProviders.of(this).get(ContactsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_contacts, container, false);
+        addFriend = root.findViewById(R.id.buttonAddFriend);
+
+        addFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.nav_host_fragment, new AddFriendActivity());
+                ft.commit();
+            }
+        });
 
         // add dummy data
         List<Contact> connections = new ArrayList<>();
         Contact c = new Contact();
-        connections.add(c);
-        c = new Contact();
-        connections.add(c);
-        c = new Contact();
         connections.add(c);
         c = new Contact();
         connections.add(c);

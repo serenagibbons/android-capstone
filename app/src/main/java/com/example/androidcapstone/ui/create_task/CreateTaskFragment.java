@@ -1,6 +1,5 @@
 package com.example.androidcapstone.ui.create_task;
 
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.DatePickerDialog;
@@ -21,13 +20,13 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.example.androidcapstone.MainActivity;
 import com.example.androidcapstone.MapsActivity;
 import com.example.androidcapstone.Model.Task;
 import com.example.androidcapstone.R;
-import com.example.androidcapstone.ui.create_task.CreateTaskViewModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,7 +40,7 @@ public class CreateTaskFragment extends Fragment {
     FirebaseFirestore db;
     private CreateTaskViewModel createTaskViewModel;
     DatePickerDialog picker;
-
+    FirebaseUser fbUser;
     EditText taskName, taskDescription, completedBy, assignedTo, editTextMapLocation;
     Button createTask, pickLocation;
     ToggleButton privacyBtn;
@@ -62,6 +61,8 @@ public class CreateTaskFragment extends Fragment {
         rBar = root.findViewById(R.id.ratingBar1);
         //Create Task Button
         createTask = root.findViewById(R.id.buttonCreateTask);
+
+        fbUser = FirebaseAuth.getInstance().getCurrentUser();
 
         //Completion Date EditText
         completedBy.setInputType(InputType.TYPE_NULL);
@@ -125,7 +126,7 @@ public class CreateTaskFragment extends Fragment {
                     CollectionReference dbProducts = db.collection("Task");
                     Task task = new Task( //String m_Creator, String m_AssignedTo, String m_TaskName, String m_TaskDescription,
                             //String m_Importance, String m_Location, Date m_DueDate, String m_Status, String m_Privacy
-                            "Kevin",//TODO Get user
+                            "Kevin", //TODO Get current user
                             false,
                             m_AssignedTo, //TODO Get user contacts
                             m_TaskName,
@@ -179,7 +180,7 @@ public class CreateTaskFragment extends Fragment {
         }
 
         return missingFields;
-    };
+    }
 
     private String checkRating(){
         int rating = (int)rBar.getRating();
@@ -193,5 +194,4 @@ public class CreateTaskFragment extends Fragment {
         }
         return "Empty";
     }
-
 }

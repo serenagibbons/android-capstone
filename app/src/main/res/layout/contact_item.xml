@@ -18,7 +18,7 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/icon"
+        android:id="@+id/photoUserPicture"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_gravity="center"

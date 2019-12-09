@@ -1,25 +1,24 @@
 package com.example.androidcapstone;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.androidcapstone.Model.Task;
+import com.example.androidcapstone.Model.User;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-import java.text.SimpleDateFormat;
 
-
-public class FeedAdapter extends FirestoreRecyclerAdapter<Task, FeedAdapter.FeedHolder> {
+public class FriendFeedAdapter extends FirestoreRecyclerAdapter<User, FriendFeedAdapter.FeedHolder> {
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See
@@ -28,53 +27,28 @@ public class FeedAdapter extends FirestoreRecyclerAdapter<Task, FeedAdapter.Feed
 
     private OnItemClickListener listener;
     private Context mContext;
+    AsyncTask<String, Void, Bitmap> dl;
+    View globalView;
 
-    public FeedAdapter(Context context, FirestoreRecyclerOptions<Task> options) {
+    public FriendFeedAdapter(Context context, FirestoreRecyclerOptions<User> options) {
         super(options);
         mContext = context;
 
     }
 
-    String dateString, createdOnString;
-    int priorityNum;
-
     @Override
-    protected void onBindViewHolder(FeedHolder holder, int i, final Task task) {
-        holder.taskName.setText(task.getM_TaskName());
+    protected void onBindViewHolder(FeedHolder holder, int i, final User users) {
+        holder.firstName.setText(users.getM_FirstName() + " " + users.getM_LastName());
+        holder.email.setText(users.getM_Email());
+        dl = new DownloadImageTask((ImageView) globalView.findViewById(R.id.photoUserPicture))
+                .execute(users.getM_Avatar());
 
-        SimpleDateFormat sdfr = new SimpleDateFormat("MM/dd/yyyy");
-        try{
-            dateString = sdfr.format(task.getM_DueDate());
-            createdOnString = sdfr.format(task.getM_CreatedOnDate());
-        }catch (Exception ex ){
-            ex.printStackTrace();
-        }
-
-        priorityNum = getPriorityNum(task.getM_Importance());
-        holder.deadline.setText(dateString);
-        holder.priority.setRating(priorityNum);
-        holder.posted.setText(createdOnString);
-        holder.desc.setText(task.getM_TaskDescription());
-
-    }
-
-    private int getPriorityNum(String rating) {
-        switch (rating) {
-            case "3":
-                return 3;
-            case "2":
-                return 2;
-            case "1":
-                return 1;
-            default:
-                return 0;
-        }
     }
 
     @NonNull
     @Override
     public FeedHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_item,
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_feed_item,
                 parent, false);
         return new FeedHolder(v);
     }
@@ -83,22 +57,17 @@ public class FeedAdapter extends FirestoreRecyclerAdapter<Task, FeedAdapter.Feed
 
         LinearLayout parentLayout;
         //ImageView image;
-        TextView taskName;
-        TextView deadline;
-        TextView posted;
-        RatingBar priority;
-        TextView desc;
+        TextView firstName; //First Name
+        TextView email; //Email
+        ImageView avatar;
 
         public FeedHolder(@NonNull View itemView) {
             super(itemView);
-
+            globalView = itemView;
             parentLayout = itemView.findViewById(R.id.parent_layout);
-            //image = itemView.findViewById(R.id.icon);
-            taskName = itemView.findViewById(R.id.textFirstName);
-            deadline = itemView.findViewById(R.id.deadline_time);
-            posted = itemView.findViewById(R.id.textLastName);
-            priority = itemView.findViewById(R.id.taskRating);
-            desc = itemView.findViewById(R.id.textEmail);
+            firstName = itemView.findViewById(R.id.textFirstName);
+            email = itemView.findViewById(R.id.textEmail);
+            avatar = itemView.findViewById(R.id.photoUserPicture);
 
             // set onClickListener for recycler view items
             itemView.setOnClickListener(new View.OnClickListener() {

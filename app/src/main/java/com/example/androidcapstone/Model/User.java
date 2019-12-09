@@ -8,6 +8,33 @@ public class User {
     private String m_FirstName;
     private String m_LastName;
 
+    public User(){
+
+    }
+    public User(String m_UserID, String m_Avatar, String m_Email, String m_FirstName, String m_LastName) {
+        this.m_UserID = m_UserID;
+        this.m_Avatar = m_Avatar;
+        this.m_Email = m_Email;
+        this.m_FirstName = m_FirstName;
+        this.m_LastName = m_LastName;
+    }
+
+    public String getM_FirstName() {
+        return m_FirstName;
+    }
+
+    public void setM_FirstName(String m_FirstName) {
+        this.m_FirstName = m_FirstName;
+    }
+
+    public String getM_LastName() {
+        return m_LastName;
+    }
+
+    public void setM_LastName(String m_LastName) {
+        this.m_LastName = m_LastName;
+    }
+
     public String getM_Email() {
         return m_Email;
     }
