@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        //notificationManager = NotificationManagerCompat.from(this);
+        notificationManager = NotificationManagerCompat.from(this);
 
         sendNotification();
     }
@@ -59,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
                 .setTicker("Notification ticker...")
                 .setWhen(System.currentTimeMillis())
                 .setContentText("You have incomplete taskits")
-                .setCategory(NotificationCompat.CATEGORY_REMINDER)
-                .setPriority(Notification.PRIORITY_HIGH);
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setAutoCancel(true);
 
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent =
@@ -68,11 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
         builder.setContentIntent(pendingIntent);
 
-        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nm.notify(NOTIFICATION_ID, builder.build());
 
-       // NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-        //notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
     @Override
@@ -88,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             //add the function to perform here
             FirebaseAuth.getInstance().signOut();
             LoginManager.getInstance().logOut();
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            Intent i = new Intent(getApplicationContext(), LoginScreenActivity.class);
             startActivity(i);
             return(true);
     }
