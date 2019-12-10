@@ -1,22 +1,35 @@
 package com.example.androidcapstone.Model;
 
+import java.util.List;
+
 public class User {
 
+    // member variables
     private String m_UserID;
     private String m_Avatar;
     private String m_Email;
     private String m_FirstName;
     private String m_LastName;
+    private List<String> Contacts;
 
-    public User(){
+    // constructors
+    public User(){}
 
-    }
     public User(String m_UserID, String m_Avatar, String m_Email, String m_FirstName, String m_LastName) {
         this.m_UserID = m_UserID;
         this.m_Avatar = m_Avatar;
         this.m_Email = m_Email;
         this.m_FirstName = m_FirstName;
         this.m_LastName = m_LastName;
+    }
+
+    // getters and setters
+    public List<String> getContacts() {
+        return Contacts;
+    }
+
+    public void setContacts(List<String> contacts) {
+        Contacts = contacts;
     }
 
     public String getM_FirstName() {
