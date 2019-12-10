@@ -32,4 +32,6 @@
     <string name="location">Location</string>
     <string name="task_location">Task Location</string>
     <string name="due_date">Due Date</string>
+
+    <string name="add_friends">Add friends</string>
 </resources>

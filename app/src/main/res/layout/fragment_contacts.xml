@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <androidx.appcompat.widget.SearchView
+       <androidx.appcompat.widget.SearchView
             android:layout_width="282dp"
             android:layout_height="wrap_content" />
 
@@ -20,7 +20,7 @@
             android:id="@+id/buttonAddFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Friends"
+            android:text="@string/add_friends"
             android:textSize="16sp" />
 
     </LinearLayout>

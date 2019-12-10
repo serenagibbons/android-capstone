@@ -1,5 +1,7 @@
 package com.example.androidcapstone.ui.contacts;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,9 +17,11 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidcapstone.ContactAdapter;
 import com.example.androidcapstone.DetailedTaskActivity;
 import com.example.androidcapstone.FeedAdapter;
 import com.example.androidcapstone.FriendFeedAdapter;
+import com.example.androidcapstone.Model.Contact;
 import com.example.androidcapstone.Model.User;
 import com.example.androidcapstone.R;
 import com.example.androidcapstone.ui.public_feed.PublicFeedViewModel;
@@ -27,13 +31,16 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.List;
+
 
 public class AddFriendActivity extends Fragment {
 
     private PublicFeedViewModel publicFeedViewModel;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference publicTaskRef = db.collection("User");
+    private CollectionReference friendRef = db.collection("User");
     private FriendFeedAdapter adapter;
+    public static final String KEY_DESCRIPTION = "Contacts";
     private RecyclerView recyclerView;
     FirestoreRecyclerOptions<User> users;
     Button findFriend;
@@ -66,7 +73,7 @@ public class AddFriendActivity extends Fragment {
 
     //Used to find friend
     private void setUpRecyclerView(String email) {
-        Query query = publicTaskRef.whereEqualTo("m_Email", email);
+        Query query = friendRef.whereEqualTo("m_Email", email);
 
         users = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(query, User.class)
@@ -80,21 +87,53 @@ public class AddFriendActivity extends Fragment {
         adapter.setOnItemClickListener(new FriendFeedAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                // store document snapshot as task object
-                User users = documentSnapshot.toObject(User.class);
+                // store document snapshot as user object
+                User user = documentSnapshot.toObject(User.class);
+
                 // save document snapshot id as String
                 String id = documentSnapshot.getId();
+                String contactFName = user.getM_FirstName();
+                String contactLName = user.getM_LastName();
+                String fullName = contactFName + " " + contactLName;
+                String contactUID = user.getM_UserID();
 
-                // create new intent to DetailedTaskActivity
-                Intent intent = new Intent(getContext(), DetailedTaskActivity.class);
-                intent.putExtra("taskit title", users.getM_UserID());
-                intent.putExtra("taskit creator", users.getM_Email());
-                intent.putExtra("taskit priority", users.getM_Avatar());
-                intent.putExtra("taskit deadline", users.getM_FirstName());
-
-                startActivity(intent);
+                addToContacts(fullName, contactUID); // would want to pass user ID
             }
         });
+    }
+
+    void addToContacts(String name, final String stringID) {
+        AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
+        adb.setMessage("Add " + name + " as a contact?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        // hard-coded ID for current user
+                        String id = "rJpFpjoDfXEo225nubod";
+
+                        Query query = friendRef.whereEqualTo("m_UserID", id);
+
+                        // not enough time to code -- suspect something along these lines
+
+                        // add selected user to current user's contacts
+                        // get users current contact list
+                        //List<String> contactList = user.getContacts();
+                        // add to contact list
+                        //contactList.push(stringID);
+                        // set users contact list to new list
+                        //friendRef.document(id).update(KEY_DESCRIPTION, contactList);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // do nothing (return)
+                    }
+                });
+        AlertDialog alert = adb.create();
+        alert.show();
     }
 
     @Override
