@@ -29,4 +29,7 @@
     <string name="facebook_app_id">2551450934892886</string>
     <string name="fb_login_protocol_scheme">fb2551450934892886</string>
     <string name="share_task">Share</string>
+    <string name="location">Location</string>
+    <string name="task_location">Task Location</string>
+    <string name="due_date">Due Date</string>
 </resources>
