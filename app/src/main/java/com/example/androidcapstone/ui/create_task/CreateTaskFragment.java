@@ -149,6 +149,13 @@ public class CreateTaskFragment extends Fragment {
                             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+
+                    // clear edit text fields
+                    taskName.setText("");
+                    taskDescription.setText("");
+                    completedBy.setText("");
+                    assignedTo.setText("");
+                    editTextMapLocation.setText("");
                 }
             }
         });
