@@ -7,11 +7,7 @@ public class Contact {
     private String phoneNum;
     private String userName;
 
-    public Contact() {
-        name = "John Doe";
-        phoneNum = "555-555-5555";
-        userName = "jdoe";
-    }
+    public Contact() {}
 
     public String getName() {
         return name;

@@ -22,6 +22,10 @@ import com.example.androidcapstone.Model.Contact;
 import com.example.androidcapstone.Model.Task;
 import com.example.androidcapstone.R;
 import com.example.androidcapstone.ui.personal_feed.PersonalFeedViewModel;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,12 @@ public class ContactsFragment extends Fragment {
     public static ContactsFragment newInstance() {
         return new ContactsFragment();
     }
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference contactRef = db.collection("Contact");
+    private ContactAdapter contactAdapter;
+    FirestoreRecyclerOptions<Contact> contacts;
+    RecyclerView contactRecyclerView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container,
@@ -54,24 +64,10 @@ public class ContactsFragment extends Fragment {
             }
         });
 
-        // add dummy data
-        List<Contact> connections = new ArrayList<>();
-        Contact c = new Contact();
-        connections.add(c);
-        c = new Contact();
-        connections.add(c);
-
-        // create recycler view adapter and layout manager
-        ContactAdapter adapter = new ContactAdapter(connections, getActivity());
-        RecyclerView.LayoutManager mgr = new LinearLayoutManager(getActivity());
-
         // refer to recycler view
-        RecyclerView contactRecyclerView = root.findViewById(R.id.contacts_recycler_view);
+        contactRecyclerView = root.findViewById(R.id.contacts_recycler_view);
 
-        // Link the adapter to the RecyclerView
-        contactRecyclerView.setAdapter(adapter);
-        // Set layout for the RecyclerView
-        contactRecyclerView.setLayoutManager(mgr);
+        setUpContactRecyclerView(contactRecyclerView);
 
         return root;
     }
@@ -80,7 +76,33 @@ public class ContactsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(ContactsViewModel.class);
-
     }
 
+    private void setUpContactRecyclerView(RecyclerView recyclerView) {
+        Query query = contactRef;
+
+        contacts = new FirestoreRecyclerOptions.Builder<Contact>()
+                .setQuery(query, Contact.class)
+                .build();
+
+        contactAdapter = new ContactAdapter(getContext(), contacts);
+
+        // refer to recycler view
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(contactAdapter);
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        contactAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        contactAdapter.stopListening();
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.androidcapstone;
 
-import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,48 +11,68 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidcapstone.Model.Contact;
-import com.example.androidcapstone.Model.Task;
-import com.example.androidcapstone.R;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
-import org.w3c.dom.Text;
+public class ContactAdapter extends FirestoreRecyclerAdapter<Contact, ContactAdapter.ContactViewHolder> {
 
-import java.util.ArrayList;
-import java.util.List;
+    /**
+     * Create a new RecyclerView adapter that listens to a Firestore Query.  See
+     * {@link FirestoreRecyclerOptions} for configuration options.
+     */
 
-public class ContactAdapter extends RecyclerView.Adapter<com.example.androidcapstone.ContactAdapter.ContactViewHolder> {
+    private ContactAdapter.OnItemClickListener listener;
+    private Context mContext;
 
-    private List<Contact> contacts = new ArrayList<>();
-    private Activity activity;
-    public ContactAdapter(List<Contact> list, Activity activity) {
-        contacts.addAll(list);
-        this.activity = activity;
+    public ContactAdapter(Context context, FirestoreRecyclerOptions<Contact> options) {
+        super(options);
+        mContext = context;
     }
+
     @NonNull
     @Override
-    public com.example.androidcapstone.ContactAdapter.ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = activity.getLayoutInflater().inflate(R.layout.contact_item, parent, false);
-        return new ContactViewHolder(v);
+    public ContactAdapter.ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_item,
+                parent, false);
+        return new ContactAdapter.ContactViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull com.example.androidcapstone.ContactAdapter.ContactViewHolder holder, int i) {
-        Contact contact = contacts.get(i);
+    protected void onBindViewHolder(@NonNull ContactViewHolder holder, int position, @NonNull Contact contact) {
         holder.contactName.setText(contact.getName());
-    }
-
-    @Override
-    public int getItemCount() {
-        return contacts.size();
     }
 
     class ContactViewHolder extends RecyclerView.ViewHolder {
 
+        ImageView contactImage;
         TextView contactName;
 
-       ContactViewHolder(@NonNull View itemView) {
-            super(itemView);
+       ContactViewHolder(@NonNull View item) {
+            super(item);
 
-            contactName = itemView.findViewById(R.id.contact_name);
-        }
+            contactImage = item.findViewById(R.id.photoUserPicture);
+            contactName = item.findViewById(R.id.contact_name);
+
+           // set onClickListener for recycler view items
+           item.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   int position = getAdapterPosition();
+                   if (position != RecyclerView.NO_POSITION && listener != null) {
+                       listener.onItemClick(getSnapshots().getSnapshot(position), position);
+                   }
+               }
+           });
+       }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(DocumentSnapshot documentSnapshot, int position);
+
+    }
+
+    public void setOnItemClickListener(ContactAdapter.OnItemClickListener listener) {
+        this.listener = listener;
     }
 }
