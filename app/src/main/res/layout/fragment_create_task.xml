@@ -225,4 +225,27 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextTaskName"
         app:layout_constraintVertical_bias="0.028" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Task  Name"
+        app:layout_constraintEnd_toStartOf="@+id/editTextTaskName"
+        app:layout_constraintHorizontal_bias="0.625"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextTaskName" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/description"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextDescription"
+        app:layout_constraintEnd_toStartOf="@+id/editTextDescription"
+        app:layout_constraintHorizontal_bias="0.642"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextDescription"
+        app:layout_constraintVertical_bias="0.222" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
