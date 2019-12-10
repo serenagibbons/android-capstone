@@ -61,8 +61,7 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
     private CollectionReference calTaskRef = db.collection("Task");
     private FeedAdapter secondAdapter;
 
-    public CalendarFragment() {
-    }
+    public CalendarFragment() {}
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -82,7 +81,6 @@ public class CalendarFragment extends Fragment implements OnMonthChangedListener
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(secondAdapter);
-
 
         setUpCalRecyclerView();
 
