@@ -20,13 +20,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.androidcapstone.ContactAdapter;
+import com.example.androidcapstone.DetailedContactActivity;
+import com.example.androidcapstone.DetailedTaskActivity;
+import com.example.androidcapstone.FeedAdapter;
 import com.example.androidcapstone.Model.Contact;
+import com.example.androidcapstone.Model.Task;
+import com.example.androidcapstone.Model.User;
 import com.example.androidcapstone.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+
+import java.text.SimpleDateFormat;
 
 public class ContactsFragment extends Fragment {
 
@@ -67,6 +74,24 @@ public class ContactsFragment extends Fragment {
 
         setUpContactRecyclerView(contactRecyclerView);
 
+        contactAdapter.setOnItemClickListener(new ContactAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                // store document snapshot as task object
+                Contact user = documentSnapshot.toObject(Contact.class);
+
+                // save document snapshot id as String
+                String id = documentSnapshot.getId();
+
+                // create new intent to DetailedTaskActivity
+                Intent intent = new Intent(getContext(), DetailedContactActivity.class);
+                intent.putExtra("contact name", user.getName());
+                intent.putExtra("contact email", user.getPhoneNum());
+               // intent.putExtra("contact image", user.getM_Avatar());
+                intent.putExtra("Document id", id);
+                startActivity(intent);
+            }
+        });
         return root;
     }
 
